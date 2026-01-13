@@ -1,7 +1,0 @@
-# This directory contains test files
-# Key subdirectories:
-# - tests/__tests__/unit/ - Unit tests
-# - tests/__tests__/integration/ - Integration tests
-# - tests/__tests__/e2e/ - End-to-end tests
-# - tests/fixtures/ - Test fixtures and mocks
-# - tests/utils/ - Test utilities
