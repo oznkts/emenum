@@ -74,7 +74,32 @@
       "description": "Menu publish API route implementing POST /api/menu/publish. Creates immutable menu snapshot with SHA-256 hash using createMenuSnapshot() from lib/services/snapshot.ts. Triggers ISR revalidation via revalidatePath for public menu page. Requires auth + organization membership with owner/admin/manager role. Returns snapshotId, version, hash, and publishedAt. Turkish error messages follow existing patterns.",
       "category": "api",
       "discovered_at": "2026-01-13T18:51:21.025772+00:00"
+    },
+    "app/api/menu/snapshot/route.ts": {
+      "description": "Menu snapshot GET API for compliance export. Supports query params: organizationId (required if no snapshotId), snapshotId (optional), version (optional), history=true (paginated list), verify=true (hash verification), export=true (compliance formatted). Uses existing snapshot service functions. Auth + org membership required.",
+      "category": "api",
+      "discovered_at": "2026-01-13T18:54:01.701035+00:00"
+    },
+    "app/(dashboard)/dashboard/page.tsx": {
+      "description": "Main dashboard page with QR code download functionality. Uses 'use client' directive with useAuth hook for organization/membership context. Fetches stats from categories, products, restaurant_tables, and service_requests tables. Integrates QR generator (lib/qrcode/generator.ts) for SVG preview and downloads (SVG, PNG 1024/2048/4096, A5 PDF). Includes quick action cards, role display, and Turkish localization.",
+      "category": "dashboard",
+      "discovered_at": "2026-01-13T18:59:28.639393+00:00"
+    },
+    "components/dashboard/sidebar.tsx": {
+      "description": "Reusable dashboard sidebar component with NavItem[] interface for customizable navigation. Exports defaultNavItems array with all dashboard routes (Genel Bakis, Kategoriler, Urunler, Masalar, Garson Cagri, Denetim Kaydi, Ayarlar). Supports mobile-responsive slide-in animation, organization info display, user avatar with sign out, badge counts on nav items. Use with isOpen/onClose props for mobile toggle.",
+      "category": "component",
+      "discovered_at": "2026-01-13T19:02:32.464790+00:00"
+    },
+    "components/dashboard/header.tsx": {
+      "description": "Dashboard header component with mobile menu toggle, menu preview link, and custom actions slot. Also exports Breadcrumbs component for navigation hierarchy and PageHeader component for page-level headers with title, description, breadcrumbs, and actions. All components support dark mode and Turkish localization.",
+      "category": "component",
+      "discovered_at": "2026-01-13T19:02:32.497720+00:00"
+    },
+    "app/(dashboard)/audit/page.tsx": {
+      "description": "Audit log viewer page displaying chronological changes with filtering (action/entity type), pagination, search, and detailed JSON diff modal. Uses Turkish localized UI, relative time formatting, color-coded action badges, and entity type icons. Fetches from audit_logs table with organization_id filter.",
+      "category": "pattern",
+      "discovered_at": "2026-01-13T19:10:54.909951+00:00"
     }
   },
-  "last_updated": "2026-01-13T18:51:21.025780+00:00"
+  "last_updated": "2026-01-13T19:10:54.909960+00:00"
 }
