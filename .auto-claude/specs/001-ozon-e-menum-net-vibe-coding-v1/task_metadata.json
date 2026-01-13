@@ -1,0 +1,132 @@
+{
+  "sourceType": "manual",
+  "model": "opus",
+  "thinkingLevel": "high",
+  "isAutoProfile": true,
+  "phaseModels": {
+    "spec": "opus",
+    "planning": "opus",
+    "coding": "opus",
+    "qa": "opus"
+  },
+  "phaseThinking": {
+    "spec": "ultrathink",
+    "planning": "high",
+    "coding": "low",
+    "qa": "low"
+  },
+  "referencedFiles": [
+    {
+      "id": "47c57adf-b90c-4d77-a2b5-d9d900b6acc0",
+      "path": "README.md",
+      "name": "README.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "f28e2bb1-b583-44f4-951f-59252df25d19",
+      "path": "menu.md",
+      "name": "menu.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "fcbb21e1-06e2-4e65-be5e-ac9b7c483f4d",
+      "path": "chatgpt.md",
+      "name": "chatgpt.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "e5dc04d9-8fc9-42de-a00a-4bb9c006d3c0",
+      "path": "gemini.md",
+      "name": "gemini.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "8114941f-ded7-46c9-bb0d-5a761b916596",
+      "path": "gereksinimler.md",
+      "name": "gereksinimler.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "cb82f428-426a-442e-ad0f-55701cd1c342",
+      "path": "paketler.md",
+      "name": "paketler.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "02f611d2-e0ba-4073-8bbe-52e3438d9213",
+      "path": "temel.md",
+      "name": "temel.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "493b6e2e-1e1d-4ba3-a28b-32b4dab5dc62",
+      "path": "ek_ozellikler.md",
+      "name": "ek_ozellikler.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "5c0d997b-2938-482a-bc56-d9de1fea7479",
+      "path": "mimari.dev.dosya-adlandirma.md",
+      "name": "mimari.dev.dosya-adlandirma.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "c8a64eb3-e69b-47fb-80cc-cb31e6bafe0f",
+      "path": "UI-UX-UED-CDN-kaynaklar.md",
+      "name": "UI-UX-UED-CDN-kaynaklar.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "e739c98f-d2da-4ccb-be2a-ec560bef8254",
+      "path": "additional_features.md",
+      "name": "additional_features.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "74259722-729e-4671-81f7-cf1140268a95",
+      "path": "gemini2.md",
+      "name": "gemini2.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "d6f3d0c9-5141-42c4-b5e1-279f0a02f1e4",
+      "path": "gpt2.md",
+      "name": "gpt2.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "335b78af-6217-458d-8eb9-e624f85fb813",
+      "path": "last.md",
+      "name": "last.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "1066c82e-911c-4e43-8d72-fba5f8bc56d2",
+      "path": "master2.md",
+      "name": "master2.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    },
+    {
+      "id": "32043c45-39a1-493f-8bf1-4714c1342fea",
+      "path": "todos.md",
+      "name": "todos.md",
+      "isDirectory": false,
+      "addedAt": "2026-01-13T16:41:17.900Z"
+    }
+  ]
+}

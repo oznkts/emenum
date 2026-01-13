@@ -1,0 +1,21 @@
+{
+  "subtasks": {
+    "subtask-1-1": {
+      "attempts": [
+        {
+          "session": 1,
+          "timestamp": "2026-01-13T20:04:23.427843",
+          "approach": "Implemented: Initialize Next.js 15.1 project with TypeScript, Tailwind CSS, ESLint",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    }
+  },
+  "stuck_subtasks": [],
+  "metadata": {
+    "created_at": "2026-01-13T20:01:21.132877",
+    "last_updated": "2026-01-13T20:04:23.427849"
+  }
+}

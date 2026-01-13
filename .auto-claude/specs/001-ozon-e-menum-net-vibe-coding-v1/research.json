@@ -1,0 +1,721 @@
+{
+  "integrations_researched": [
+    {
+      "name": "Next.js",
+      "type": "framework",
+      "verified_package": {
+        "name": "next",
+        "install_command": "npm install next react react-dom",
+        "version": "^15.1.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { NextRequest, NextResponse } from 'next/server'",
+          "import { revalidatePath, revalidateTag } from 'next/cache'",
+          "import { cookies, headers } from 'next/headers'",
+          "import Image from 'next/image'",
+          "import Link from 'next/link'"
+        ],
+        "initialization": "// App Router: app/layout.tsx as root layout",
+        "key_functions": [
+          "generateStaticParams() - for dynamic route SSG",
+          "revalidatePath(path) - on-demand ISR revalidation",
+          "revalidateTag(tag) - cache tag invalidation",
+          "unstable_cache() - data caching with tags",
+          "generateMetadata() - dynamic SEO metadata"
+        ],
+        "verified_against": "Context7 MCP: /vercel/next.js (2103 snippets, Benchmark: 91.8)"
+      },
+      "configuration": {
+        "env_vars": [
+          "NEXT_PUBLIC_* - client-exposed vars",
+          "NODE_ENV"
+        ],
+        "config_files": [
+          "next.config.js or next.config.ts",
+          "middleware.ts"
+        ],
+        "dependencies": [
+          "react@^18.3.0 or ^19.0.0",
+          "react-dom@^18.3.0 or ^19.0.0"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "deployment": "Vercel (optimized) or self-hosted",
+        "ports": [3000]
+      },
+      "gotchas": [
+        "App Router uses React Server Components by default - 'use client' directive needed for client components",
+        "Dynamic routes with generateStaticParams() for ISR/SSG",
+        "Middleware runs on Edge - limited Node.js APIs available",
+        "revalidatePath/revalidateTag for on-demand ISR (required for menu publish workflow)"
+      ],
+      "research_sources": [
+        "Context7 MCP: /vercel/next.js",
+        "Context7 MCP: /websites/nextjs (5101 snippets)"
+      ]
+    },
+    {
+      "name": "Supabase",
+      "type": "service",
+      "verified_package": {
+        "name": "@supabase/supabase-js",
+        "install_command": "npm install @supabase/supabase-js",
+        "version": "^2.58.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { createClient } from '@supabase/supabase-js'",
+          "import { createServerClient } from '@supabase/ssr'"
+        ],
+        "initialization": "const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)",
+        "key_functions": [
+          "supabase.auth.signUp({ email, password })",
+          "supabase.auth.signInWithPassword({ email, password })",
+          "supabase.auth.signOut()",
+          "supabase.auth.getUser()",
+          "supabase.from('table').select('*')",
+          "supabase.from('table').insert({})",
+          "supabase.from('table').update({}).eq('id', id)",
+          "supabase.storage.from('bucket').upload(path, file)",
+          "supabase.channel('room').subscribe()"
+        ],
+        "verified_against": "Context7 MCP: /supabase/supabase-js (491 snippets, Benchmark: 90.3)"
+      },
+      "configuration": {
+        "env_vars": [
+          "NEXT_PUBLIC_SUPABASE_URL",
+          "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+          "SUPABASE_SERVICE_ROLE_KEY (server-side only, NEVER expose to client)"
+        ],
+        "config_files": [
+          "supabase/config.toml (local dev)",
+          "supabase/migrations/*.sql"
+        ],
+        "dependencies": [
+          "@supabase/ssr (for Next.js App Router SSR/RSC)"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": true,
+        "docker_image": "supabase/postgres",
+        "local_dev": "supabase start (Docker required)",
+        "ports": [54321, 54322, 54323]
+      },
+      "gotchas": [
+        "RLS policies MUST be enabled for multi-tenant security",
+        "Service role key bypasses RLS - use only server-side for admin operations",
+        "Use @supabase/ssr for proper cookie handling in Next.js App Router",
+        "Realtime requires channel subscription setup",
+        "Storage bucket policies separate from table RLS"
+      ],
+      "research_sources": [
+        "Context7 MCP: /supabase/supabase-js",
+        "Context7 MCP: /supabase/supabase (6016 snippets)",
+        "Context7 MCP: /llmstxt/supabase_llms_txt (Benchmark: 85.5)"
+      ]
+    },
+    {
+      "name": "Supabase SSR",
+      "type": "library",
+      "verified_package": {
+        "name": "@supabase/ssr",
+        "install_command": "npm install @supabase/ssr",
+        "version": "^0.5.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { createServerClient } from '@supabase/ssr'",
+          "import { createBrowserClient } from '@supabase/ssr'"
+        ],
+        "initialization": "// Server: createServerClient with cookies() from next/headers\n// Client: createBrowserClient for client components",
+        "key_functions": [
+          "createServerClient(url, key, { cookies: { get, set, remove } })",
+          "createBrowserClient(url, key)"
+        ],
+        "verified_against": "Supabase official documentation"
+      },
+      "configuration": {
+        "env_vars": [
+          "NEXT_PUBLIC_SUPABASE_URL",
+          "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+        ],
+        "config_files": [],
+        "dependencies": [
+          "@supabase/supabase-js"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Required for proper auth cookie handling in Next.js App Router",
+        "createServerClient for server components, route handlers, middleware",
+        "createBrowserClient for client components",
+        "Cookie management differs between server/client contexts"
+      ],
+      "research_sources": [
+        "Supabase Next.js documentation"
+      ]
+    },
+    {
+      "name": "QR Code Generator",
+      "type": "library",
+      "verified_package": {
+        "name": "qrcode",
+        "install_command": "npm install qrcode @types/qrcode",
+        "version": "^1.5.4",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import QRCode from 'qrcode'"
+        ],
+        "initialization": "// No initialization needed - direct function calls",
+        "key_functions": [
+          "QRCode.toDataURL(text, options) - returns base64 PNG",
+          "QRCode.toString(text, { type: 'svg' }) - returns SVG string",
+          "QRCode.toBuffer(text, options) - returns PNG Buffer",
+          "QRCode.toFile(path, text, options) - saves to file",
+          "QRCode.toCanvas(canvas, text, options) - renders to canvas"
+        ],
+        "verified_against": "Context7 MCP: React QR Code patterns + npm qrcode package standard API"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "For high-quality print (A5 PDF), use errorCorrectionLevel: 'H' and scale: 10+",
+        "SVG output is best for vector/print quality",
+        "PNG requires explicit width for resolution control (1024/2048/4096)",
+        "Server-side generation recommended for consistent output"
+      ],
+      "research_sources": [
+        "Context7 MCP: /websites/reactqrcode",
+        "npm qrcode package documentation"
+      ]
+    },
+    {
+      "name": "dnd-kit",
+      "type": "library",
+      "verified_package": {
+        "name": "@dnd-kit/core",
+        "install_command": "npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities",
+        "version": "^6.1.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'",
+          "import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'",
+          "import { CSS } from '@dnd-kit/utilities'"
+        ],
+        "initialization": "<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>",
+        "key_functions": [
+          "useDraggable({ id }) - make element draggable",
+          "useDroppable({ id }) - make element a drop target",
+          "useSortable({ id }) - sortable list items",
+          "useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor))",
+          "arrayMove(items, oldIndex, newIndex) - reorder array helper"
+        ],
+        "verified_against": "Context7 MCP: /websites/dndkit (109 snippets, Benchmark: 80)"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "@dnd-kit/sortable (for sortable lists)",
+          "@dnd-kit/utilities (for CSS transform helpers)"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Requires 'use client' directive in Next.js App Router",
+        "Accessibility: KeyboardSensor + sortableKeyboardCoordinates for a11y",
+        "Transform with CSS.Transform.toString(transform) for smooth animations",
+        "Use SortableContext for list-based drag-drop (menu builder)",
+        "Collision detection: closestCenter for lists, closestCorners for grids"
+      ],
+      "research_sources": [
+        "Context7 MCP: /websites/dndkit",
+        "Context7 MCP: /clauderic/dnd-kit"
+      ]
+    },
+    {
+      "name": "OpenAI Node SDK",
+      "type": "library",
+      "verified_package": {
+        "name": "openai",
+        "install_command": "npm install openai",
+        "version": "^4.104.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import OpenAI from 'openai'"
+        ],
+        "initialization": "const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })",
+        "key_functions": [
+          "openai.chat.completions.create({ model, messages, ... })",
+          "openai.images.generate({ model, prompt, size, ... })",
+          "openai.embeddings.create({ model, input })",
+          "openai.audio.transcriptions.create({ model, file })"
+        ],
+        "verified_against": "Context7 MCP: /openai/openai-node (437 snippets, Benchmark: 87.9)"
+      },
+      "configuration": {
+        "env_vars": [
+          "OPENAI_API_KEY (NEVER expose to client)"
+        ],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "API key must NEVER be exposed to client - server-side only",
+        "Use streaming for long responses: stream: true",
+        "Token counting needed for usage metering (AI Token Store feature)",
+        "Rate limiting and error handling required for production",
+        "Consider using tiktoken for accurate token counting"
+      ],
+      "research_sources": [
+        "Context7 MCP: /openai/openai-node",
+        "Context7 MCP: /websites/platform_openai (9418 snippets)"
+      ]
+    },
+    {
+      "name": "Google Generative AI (Gemini)",
+      "type": "library",
+      "verified_package": {
+        "name": "@google/generative-ai",
+        "install_command": "npm install @google/generative-ai",
+        "version": "^0.21.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { GoogleGenerativeAI } from '@google/generative-ai'"
+        ],
+        "initialization": "const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)\nconst model = genAI.getGenerativeModel({ model: 'gemini-pro' })",
+        "key_functions": [
+          "model.generateContent(prompt)",
+          "model.generateContentStream(prompt)",
+          "model.countTokens(prompt)",
+          "model.startChat({ history })"
+        ],
+        "verified_against": "Context7 MCP: /websites/ai_google_dev_gemini-api (3752 snippets, Benchmark: 72.6)"
+      },
+      "configuration": {
+        "env_vars": [
+          "GOOGLE_AI_API_KEY (NEVER expose to client)"
+        ],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "API key must NEVER be exposed to client - server-side only",
+        "Model names: gemini-pro, gemini-pro-vision, gemini-1.5-flash",
+        "countTokens() for usage metering before generation",
+        "Streaming responses for better UX",
+        "Safety settings configurable per request"
+      ],
+      "research_sources": [
+        "Context7 MCP: /websites/ai_google_dev_gemini-api",
+        "Context7 MCP: /googleapis/python-genai (API patterns)"
+      ]
+    },
+    {
+      "name": "PapaParse",
+      "type": "library",
+      "verified_package": {
+        "name": "papaparse",
+        "install_command": "npm install papaparse @types/papaparse",
+        "version": "^5.4.1",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import Papa from 'papaparse'"
+        ],
+        "initialization": "// No initialization needed",
+        "key_functions": [
+          "Papa.parse(csvString, { header: true, complete: (results) => {} })",
+          "Papa.parse(file, { header: true, complete: (results) => {} })",
+          "Papa.unparse(data, { header: true }) - convert to CSV string",
+          "Papa.parse(file, { worker: true, ... }) - background processing"
+        ],
+        "verified_against": "Context7 MCP: /mholt/papaparse (78 snippets, Benchmark: 89.6)"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "header: true for object output (required for products/categories import)",
+        "Use worker: true for large CSV files to avoid UI blocking",
+        "skipEmptyLines: true recommended for cleaner data",
+        "dynamicTyping: true converts numeric strings to numbers",
+        "UTF-8 BOM handling may be needed for Excel exports"
+      ],
+      "research_sources": [
+        "Context7 MCP: /mholt/papaparse"
+      ]
+    },
+    {
+      "name": "PDFKit",
+      "type": "library",
+      "verified_package": {
+        "name": "pdfkit",
+        "install_command": "npm install pdfkit @types/pdfkit",
+        "version": "^0.15.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import PDFDocument from 'pdfkit'"
+        ],
+        "initialization": "const doc = new PDFDocument({ size: 'A5', margin: 50 })",
+        "key_functions": [
+          "doc.image(imageBuffer, x, y, { fit: [width, height] })",
+          "doc.text('text', x, y, options)",
+          "doc.font('Helvetica')",
+          "doc.fontSize(size)",
+          "doc.pipe(stream)",
+          "doc.end()"
+        ],
+        "verified_against": "Context7 MCP: /foliojs/pdfkit (127 snippets, Benchmark: 83.6)"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "blob-stream (for browser usage)"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Server-side only in Next.js (uses Node.js streams)",
+        "A5 size: 420 x 595 points (148mm x 210mm)",
+        "Buffer output: pipe to buffer-concat or stream to blob",
+        "Font embedding for non-Latin characters (Turkish)",
+        "QR code: embed as PNG buffer with doc.image()"
+      ],
+      "research_sources": [
+        "Context7 MCP: /foliojs/pdfkit"
+      ]
+    },
+    {
+      "name": "Node.js Crypto (SHA-256)",
+      "type": "builtin",
+      "verified_package": {
+        "name": "crypto",
+        "install_command": "// Built-in Node.js module - no install needed",
+        "version": "Node.js built-in",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { createHash } from 'crypto'"
+        ],
+        "initialization": "// No initialization needed",
+        "key_functions": [
+          "createHash('sha256').update(data).digest('hex')",
+          "createHash('sha256').update(JSON.stringify(snapshot)).digest('hex')"
+        ],
+        "verified_against": "Node.js official documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Server-side only - use Web Crypto API for client-side if needed",
+        "For menu snapshot: JSON.stringify() with deterministic key ordering",
+        "digest('hex') for human-readable hash storage"
+      ],
+      "research_sources": [
+        "Node.js crypto module documentation"
+      ]
+    },
+    {
+      "name": "React Hook Form",
+      "type": "library",
+      "verified_package": {
+        "name": "react-hook-form",
+        "install_command": "npm install react-hook-form",
+        "version": "^7.54.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { useForm, Controller } from 'react-hook-form'"
+        ],
+        "initialization": "const { register, handleSubmit, formState: { errors } } = useForm()",
+        "key_functions": [
+          "register('fieldName', { required: true })",
+          "handleSubmit(onSubmit)",
+          "Controller for custom components",
+          "setValue, getValues, reset, watch"
+        ],
+        "verified_against": "Standard React Hook Form patterns"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "@hookform/resolvers (for Zod integration)"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Requires 'use client' in Next.js App Router",
+        "Use with Zod for schema validation",
+        "Controller for controlled components (Select, DatePicker, etc.)"
+      ],
+      "research_sources": [
+        "React Hook Form documentation"
+      ]
+    },
+    {
+      "name": "Zod",
+      "type": "library",
+      "verified_package": {
+        "name": "zod",
+        "install_command": "npm install zod",
+        "version": "^3.23.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { z } from 'zod'"
+        ],
+        "initialization": "const schema = z.object({ ... })",
+        "key_functions": [
+          "z.string().min(1).max(255)",
+          "z.number().positive()",
+          "z.enum(['option1', 'option2'])",
+          "z.object({ field: z.string() })",
+          "schema.parse(data) - throws on error",
+          "schema.safeParse(data) - returns { success, data/error }"
+        ],
+        "verified_against": "Zod documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "@hookform/resolvers (for React Hook Form)"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Use safeParse for validation without exceptions",
+        "z.infer<typeof schema> for TypeScript type inference",
+        "Combine with React Hook Form via @hookform/resolvers/zod"
+      ],
+      "research_sources": [
+        "Zod documentation"
+      ]
+    },
+    {
+      "name": "Tailwind CSS",
+      "type": "library",
+      "verified_package": {
+        "name": "tailwindcss",
+        "install_command": "npm install tailwindcss postcss autoprefixer",
+        "version": "^3.4.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "@tailwind base;\n@tailwind components;\n@tailwind utilities;"
+        ],
+        "initialization": "npx tailwindcss init -p",
+        "key_functions": [
+          "className='flex items-center justify-between'",
+          "dark:bg-gray-900 (dark mode)",
+          "sm:, md:, lg:, xl: (responsive)",
+          "@apply for component classes"
+        ],
+        "verified_against": "Tailwind CSS documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [
+          "tailwind.config.js",
+          "postcss.config.js"
+        ],
+        "dependencies": [
+          "postcss",
+          "autoprefixer"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Configure content paths in tailwind.config.js for tree-shaking",
+        "Use CSS variables for theme tokens (dark/light mode)",
+        "Consider tailwind-merge for conditional class merging"
+      ],
+      "research_sources": [
+        "Tailwind CSS documentation"
+      ]
+    },
+    {
+      "name": "Lucide React (Icons)",
+      "type": "library",
+      "verified_package": {
+        "name": "lucide-react",
+        "install_command": "npm install lucide-react",
+        "version": "^0.462.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { Menu, X, ChevronDown, QrCode, Settings } from 'lucide-react'"
+        ],
+        "initialization": "// Direct component usage",
+        "key_functions": [
+          "<Menu size={24} strokeWidth={2} />",
+          "<QrCode className='w-6 h-6' />"
+        ],
+        "verified_against": "Lucide documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Tree-shakeable - import only needed icons",
+        "Works with Tailwind classes for sizing",
+        "Replace any emoji usage requirement with Lucide icons"
+      ],
+      "research_sources": [
+        "Lucide documentation"
+      ]
+    }
+  ],
+  "unverified_claims": [
+    {
+      "claim": "A5 pleksiglass QR design template",
+      "reason": "Specific plexiglass design template not a standard library concern - requires custom design implementation",
+      "risk_level": "low"
+    },
+    {
+      "claim": "WhatsApp notification integration",
+      "reason": "Requirements deprecated WhatsApp for revisions, only optional for support/notification - no specific library researched",
+      "risk_level": "low"
+    }
+  ],
+  "recommendations": [
+    "Use @supabase/ssr for proper Next.js App Router integration with Supabase auth",
+    "Consider sharp npm package for image optimization if Next.js Image optimization is insufficient",
+    "Use react-hot-toast or sonner for toast notifications (not researched but commonly needed)",
+    "Consider zustand or jotai for client-side state management if needed beyond React state",
+    "Add @tanstack/react-query for data fetching/caching if Supabase real-time is not sufficient",
+    "Use tiktoken npm package for accurate OpenAI token counting in AI Token Store feature",
+    "Consider next-intl or i18next for multi-language support mentioned in requirements",
+    "Use date-fns or dayjs for date manipulation (scheduling, timestamps)"
+  ],
+  "context7_libraries_used": [
+    "/vercel/next.js",
+    "/supabase/supabase-js",
+    "/supabase/supabase",
+    "/openai/openai-node",
+    "/websites/ai_google_dev_gemini-api",
+    "/mholt/papaparse",
+    "/foliojs/pdfkit",
+    "/websites/dndkit",
+    "/clauderic/dnd-kit",
+    "/websites/reactqrcode"
+  ],
+  "package_json_dependencies": {
+    "dependencies": {
+      "next": "^15.1.0",
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0",
+      "@supabase/supabase-js": "^2.58.0",
+      "@supabase/ssr": "^0.5.0",
+      "@dnd-kit/core": "^6.1.0",
+      "@dnd-kit/sortable": "^8.0.0",
+      "@dnd-kit/utilities": "^3.2.2",
+      "qrcode": "^1.5.4",
+      "pdfkit": "^0.15.0",
+      "papaparse": "^5.4.1",
+      "react-hook-form": "^7.54.0",
+      "@hookform/resolvers": "^3.9.0",
+      "zod": "^3.23.0",
+      "lucide-react": "^0.462.0",
+      "tailwindcss": "^3.4.0",
+      "openai": "^4.104.0",
+      "@google/generative-ai": "^0.21.0"
+    },
+    "devDependencies": {
+      "@types/node": "^22.0.0",
+      "@types/react": "^19.0.0",
+      "@types/react-dom": "^19.0.0",
+      "@types/qrcode": "^1.5.5",
+      "@types/pdfkit": "^0.13.0",
+      "@types/papaparse": "^5.3.15",
+      "typescript": "^5.7.0",
+      "postcss": "^8.4.49",
+      "autoprefixer": "^10.4.20"
+    }
+  },
+  "supabase_rls_patterns": {
+    "description": "Row Level Security patterns for multi-tenant isolation",
+    "policy_template": "CREATE POLICY tenant_isolation ON {table} FOR ALL USING (organization_id = (SELECT organization_id FROM auth.users WHERE id = auth.uid()))",
+    "key_patterns": [
+      "All tables must have organization_id column",
+      "RLS enabled on ALL tables with tenant data",
+      "Service role key bypasses RLS - use only server-side",
+      "Use auth.uid() and auth.jwt() in policies"
+    ]
+  },
+  "database_triggers_needed": {
+    "price_ledger_immutability": {
+      "description": "Prevent UPDATE/DELETE on price_ledger table",
+      "trigger_sql": "CREATE OR REPLACE FUNCTION prevent_price_ledger_modification() RETURNS TRIGGER AS $$ BEGIN RAISE EXCEPTION 'price_ledger modifications are not allowed'; END; $$ LANGUAGE plpgsql; CREATE TRIGGER no_update_delete_price_ledger BEFORE UPDATE OR DELETE ON price_ledger FOR EACH ROW EXECUTE FUNCTION prevent_price_ledger_modification();"
+    },
+    "snapshot_hash_validation": {
+      "description": "Validate SHA-256 hash matches content on insert",
+      "notes": "Application-level validation recommended over trigger for flexibility"
+    }
+  },
+  "created_at": "2025-01-13T00:00:00Z"
+}

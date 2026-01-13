@@ -1,0 +1,152 @@
+{
+  "complexity": "complex",
+  "workflow_type": "feature",
+  "confidence": 0.95,
+  "reasoning": "Greenfield multi-tenant SaaS platform with 7+ major modules (QR system, menu builder, product management, tables/waiter, ordering, admin, AI gateway), mandatory Supabase infrastructure (Auth + RLS + Realtime + Storage), regulatory compliance requirements (immutable price ledger with cryptographic proofs), and 30+ routes across public/protected/admin sections. Requires extensive research on Supabase RLS patterns, drag-drop builder implementation, and ISR/SSG caching strategies.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 150,
+      "estimated_services": 7,
+      "is_cross_cutting": true,
+      "notes": "Full SaaS platform: Core (auth/tenancy), Menu Builder, Product Management, Tables/Waiter, Ordering, Super Admin, AI Gateway. Each module touches DB/API/UI layers. 30+ routes across public, protected, and admin sections."
+    },
+    "integrations": {
+      "external_services": ["Supabase Auth", "Supabase Postgres", "Supabase Storage", "Supabase Realtime", "QR Code Generation", "OpenAI (optional)", "Gemini (optional)"],
+      "new_dependencies": ["@supabase/supabase-js", "@supabase/ssr", "qrcode", "pdf-lib or similar", "crypto (built-in)", "dnd-kit or similar"],
+      "research_needed": true,
+      "notes": "Supabase suite is well-documented but RLS multi-tenant patterns, real-time subscriptions for waiter calls, and storage policies need research. QR generation with multiple output formats (SVG/PNG/PDF) needs investigation. AI gateway is optional add-on."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": true,
+      "config_changes": true,
+      "notes": "Vercel deployment + Supabase project setup required. CI/CD pipelines explicitly requested. Multi-environment configuration (dev with default admin, prod with security guards). Database schema with 15+ tables, RLS policies, triggers for immutability enforcement."
+    },
+    "knowledge": {
+      "patterns_exist": false,
+      "research_required": true,
+      "unfamiliar_tech": ["Supabase RLS multi-tenant patterns", "Insert-only ledger with DB triggers", "ISR/SSG with on-demand revalidation", "Drag-drop menu builder architecture", "SHA-256 menu snapshot system", "Feature flag driven plan system"],
+      "notes": "Greenfield project - no existing patterns to follow. Multiple architectural decisions required: component registry pattern, JSON-based builder storage, immutable audit trail design, dynamic plan/feature system."
+    },
+    "risk": {
+      "level": "high",
+      "concerns": [
+        "Multi-tenant data isolation - RLS misconfiguration could expose tenant data",
+        "Immutable price ledger - triggers must prevent UPDATE/DELETE reliably",
+        "Authentication security - dev default admin must be blocked in production",
+        "Regulatory compliance - Turkish Trade Ministry requirements for price records",
+        "Performance - public menu pages must be fast (ISR/SSG critical)",
+        "API key protection - AI provider keys must never reach client"
+      ],
+      "notes": "Security-critical SaaS with regulatory compliance requirements. Multi-tenant isolation and immutable audit trails are non-negotiable. Any failure in these areas could have legal and financial consequences."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "self_critique",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": true,
+    "needs_infrastructure_setup": true
+  },
+
+  "validation_recommendations": {
+    "risk_level": "critical",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration", "e2e", "security"],
+    "security_scan_required": true,
+    "staging_deployment_required": true,
+    "reasoning": "Multi-tenant SaaS with regulatory compliance requirements. Security scan mandatory for RLS policies, auth flows, and API key handling. E2E tests required for QR-to-menu flow (core business value). Staging deployment needed to verify Supabase integration, real-time features, and ISR/SSG behavior in production-like environment."
+  },
+
+  "module_breakdown": {
+    "core_platform": {
+      "description": "Auth, tenancy, RBAC, feature flags, audit logging",
+      "estimated_files": 25,
+      "priority": "P0 - Foundation"
+    },
+    "qr_system": {
+      "description": "QR generation (SVG/PNG/PDF), stable links, table context",
+      "estimated_files": 10,
+      "priority": "P0 - Core value proposition"
+    },
+    "menu_builder": {
+      "description": "Drag-drop builder, component registry, draft/publish, snapshots",
+      "estimated_files": 30,
+      "priority": "P0 - Critical feature"
+    },
+    "product_management": {
+      "description": "CRUD, variants, modifiers, allergens, import/export",
+      "estimated_files": 20,
+      "priority": "P0 - Required for menus"
+    },
+    "price_ledger": {
+      "description": "Insert-only ledger, triggers, snapshot hashing, compliance export",
+      "estimated_files": 15,
+      "priority": "P0 - Regulatory requirement"
+    },
+    "tables_waiter": {
+      "description": "Table management, waiter call real-time, service requests",
+      "estimated_files": 15,
+      "priority": "P1 - Optional module"
+    },
+    "super_admin": {
+      "description": "Tenant management, plan/override, impersonation, compliance",
+      "estimated_files": 20,
+      "priority": "P1 - Platform management"
+    },
+    "ai_gateway": {
+      "description": "Provider integration, usage metering, token store",
+      "estimated_files": 15,
+      "priority": "P2 - Optional add-on"
+    }
+  },
+
+  "database_scope": {
+    "estimated_tables": 18,
+    "tables_list": [
+      "organizations",
+      "locations",
+      "members",
+      "roles",
+      "features",
+      "plans",
+      "plan_features",
+      "subscriptions",
+      "organization_overrides",
+      "categories",
+      "products",
+      "variants",
+      "modifiers",
+      "price_ledger",
+      "menu_snapshots",
+      "audit_logs",
+      "restaurant_tables",
+      "service_requests"
+    ],
+    "rls_policies_needed": true,
+    "triggers_needed": true,
+    "notes": "All tables require organization_id for RLS isolation. price_ledger requires UPDATE/DELETE blocking trigger. menu_snapshots stores JSON + SHA-256 hash."
+  },
+
+  "route_scope": {
+    "public_routes": 15,
+    "protected_routes": 12,
+    "admin_routes": 6,
+    "api_routes": 20,
+    "notes": "30+ page routes plus API routes. All must return 200 or appropriate auth redirect. Route health check automation requested."
+  },
+
+  "created_at": "2025-01-13T10:00:00.000Z"
+}

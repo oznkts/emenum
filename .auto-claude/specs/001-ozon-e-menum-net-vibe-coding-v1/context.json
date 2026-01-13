@@ -1,0 +1,117 @@
+{
+  "task_description": "e-menum.net - Hygienic QR Menu SaaS Platform for Turkish restaurants with regulatory compliance (immutable price ledger with SHA-256 verification)",
+  "scoped_services": ["nextjs", "supabase"],
+  "files_to_modify": {
+    "nextjs_core": [
+      "app/page.tsx",
+      "app/layout.tsx",
+      "middleware.ts",
+      "tailwind.config.ts",
+      "package.json",
+      "tsconfig.json"
+    ],
+    "auth_pages": [
+      "app/(auth)/login/page.tsx",
+      "app/(auth)/register/page.tsx",
+      "app/(auth)/password-recovery/page.tsx",
+      "app/(auth)/reset-password/page.tsx",
+      "app/(auth)/verify-email/page.tsx",
+      "app/auth/callback/route.ts"
+    ],
+    "dashboard_pages": [
+      "app/(dashboard)/dashboard/page.tsx",
+      "app/(dashboard)/products/page.tsx",
+      "app/(dashboard)/products/new/page.tsx",
+      "app/(dashboard)/products/[id]/page.tsx",
+      "app/(dashboard)/categories/page.tsx",
+      "app/(dashboard)/tables/page.tsx",
+      "app/(dashboard)/waiter/page.tsx",
+      "app/(dashboard)/audit/page.tsx",
+      "app/(dashboard)/settings/page.tsx"
+    ],
+    "admin_pages": [
+      "app/(admin)/admin/page.tsx",
+      "app/(admin)/admin/organizations/page.tsx",
+      "app/(admin)/admin/plans/page.tsx",
+      "app/(admin)/admin/overrides/page.tsx",
+      "app/(admin)/admin/ai/page.tsx"
+    ],
+    "public_pages": [
+      "app/features/page.tsx",
+      "app/pricing/page.tsx",
+      "app/menu/[slug]/page.tsx",
+      "app/r/[slug]/page.tsx"
+    ],
+    "api_routes": [
+      "app/api/auth/logout/route.ts",
+      "app/api/locations/route.ts",
+      "app/api/locations/[id]/route.ts",
+      "app/api/service-request/route.ts",
+      "app/api/qr/generate/route.ts",
+      "app/api/menu/publish/route.ts",
+      "app/api/menu/snapshot/route.ts"
+    ],
+    "lib_services": [
+      "lib/supabase/client.ts",
+      "lib/supabase/server.ts",
+      "lib/guards/permission.ts",
+      "lib/guards/limits.ts",
+      "lib/services/price-ledger.ts",
+      "lib/services/snapshot.ts",
+      "lib/qrcode/generator.ts"
+    ],
+    "supabase_migrations": [
+      "supabase/migrations/001_core_tables.sql",
+      "supabase/migrations/002_products_price_ledger.sql",
+      "supabase/migrations/003_package_management.sql",
+      "supabase/migrations/004_tables_service_requests.sql",
+      "supabase/migrations/005_audit_compliance.sql",
+      "supabase/migrations/006_views.sql",
+      "supabase/migrations/007_rls_policies.sql",
+      "supabase/migrations/010_auto_snapshot_trigger.sql",
+      "supabase/seed.sql"
+    ]
+  },
+  "files_to_reference": [
+    "README.md",
+    "menu.md",
+    "ek_ozellikler.md",
+    "mimari.dev.dosya-adlandirma.md",
+    "temel.md"
+  ],
+  "patterns": {
+    "supabase_browser_client": "Use createBrowserClient from @supabase/ssr for client components",
+    "supabase_server_client": "Use createServerClient with cookies from next/headers for server components",
+    "permission_guard": "All feature checks via hasPermission(orgId, featureKey) - NO hard-coded plan checks",
+    "price_ledger": "INSERT-only pattern - prices in separate price_ledger table, not products table",
+    "rls_policy": "All tenant tables need RLS policies filtering by organization_id via auth.uid()",
+    "route_protection": "middleware.ts handles auth redirects for protected/admin routes",
+    "relative_urls": "All internal links use relative paths - no hard-coded domain",
+    "api_responses": "JSON responses with standard status codes (200/201/400/401/403/404/500)"
+  },
+  "existing_implementations": {
+    "description": "Greenfield project - no existing code, only documentation",
+    "relevant_files": []
+  },
+  "database_tables": [
+    "organizations",
+    "organization_members",
+    "categories",
+    "products",
+    "price_ledger",
+    "features",
+    "plans",
+    "plan_features",
+    "subscriptions",
+    "organization_feature_overrides",
+    "menu_snapshots",
+    "restaurant_tables",
+    "service_requests",
+    "audit_logs"
+  ],
+  "views": [
+    "current_prices",
+    "v_organization_features"
+  ],
+  "created_at": "2026-01-13T19:46:42.095936"
+}

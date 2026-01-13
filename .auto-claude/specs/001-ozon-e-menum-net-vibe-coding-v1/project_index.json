@@ -1,0 +1,62 @@
+{
+  "project_root": "/Users/karaca/Desktop/ozon",
+  "project_type": "single",
+  "services": {
+    "nextjs": {
+      "path": ".",
+      "tech_stack": ["typescript", "nextjs", "react", "tailwindcss"],
+      "framework_version": "15.1.x",
+      "language_version": "5.7.x",
+      "port": 3000,
+      "dev_command": "npm run dev",
+      "build_command": "npm run build",
+      "test_command": "npm run test",
+      "entry_points": ["app/page.tsx", "app/layout.tsx", "middleware.ts"]
+    },
+    "supabase": {
+      "path": "supabase",
+      "tech_stack": ["postgresql", "supabase-auth", "supabase-storage", "supabase-realtime"],
+      "ports": {
+        "api": 54321,
+        "db": 54322,
+        "studio": 54323
+      },
+      "dev_command": "npx supabase start",
+      "migration_command": "npx supabase db push"
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": "supabase-postgresql",
+    "hosting": "vercel",
+    "ci_cd": "github-actions"
+  },
+  "conventions": {
+    "linter": "eslint",
+    "formatter": "prettier",
+    "testing": "vitest",
+    "commit_style": "conventional",
+    "file_naming": "kebab-case"
+  },
+  "key_directories": {
+    "app": "Next.js App Router pages and API routes",
+    "components": "React components (ui/, admin/, auth/, providers/)",
+    "lib": "Utility functions (supabase/, guards/, services/, actions/, qrcode/)",
+    "hooks": "Custom React hooks",
+    "types": "TypeScript type definitions",
+    "supabase": "Database migrations and seed data",
+    "tests": "Test files (__mocks__/, __tests__/)"
+  },
+  "environment_variables": {
+    "required": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SITE_URL"
+    ],
+    "optional": [
+      "OPENAI_API_KEY",
+      "GEMINI_API_KEY"
+    ]
+  }
+}

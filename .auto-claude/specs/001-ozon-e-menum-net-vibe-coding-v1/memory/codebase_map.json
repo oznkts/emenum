@@ -1,0 +1,10 @@
+{
+  "discovered_files": {
+    "package.json": {
+      "description": "Next.js 15.5.9 with React 19, TypeScript 5.7, Tailwind CSS 3.4.x, ESLint 8.x setup. Uses App Router with security headers configured in next.config.ts. Vitest configured for testing.",
+      "category": "project-setup",
+      "discovered_at": "2026-01-13T17:03:50.050963+00:00"
+    }
+  },
+  "last_updated": "2026-01-13T17:03:50.050973+00:00"
+}

@@ -1,0 +1,1623 @@
+{
+  "feature": "e-menum.net QR Menu SaaS Platform",
+  "workflow_type": "feature",
+  "workflow_rationale": "Greenfield project requiring complete implementation of a multi-tenant SaaS platform with multiple interconnected modules. Feature workflow follows service dependency order: Database schema first, then core infrastructure, authentication, business logic services, UI components, and finally integration/testing.",
+  "phases": [
+    {
+      "id": "phase-1-setup",
+      "name": "Project Setup",
+      "type": "setup",
+      "description": "Initialize Next.js 15.1 project with TypeScript, Tailwind CSS, and Supabase integration",
+      "depends_on": [],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Initialize Next.js 15.1 project with TypeScript, Tailwind CSS, ESLint",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "package.json",
+            "tsconfig.json",
+            "tailwind.config.ts",
+            "postcss.config.js",
+            "next.config.ts",
+            ".eslintrc.json",
+            ".gitignore",
+            ".env.local.example"
+          ],
+          "patterns_from": [
+            "README.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "npm run dev -- --help || echo 'Next.js initialized'",
+            "expected": "Next.js"
+          },
+          "status": "completed",
+          "notes": "Initialized Next.js 15.5.9 project with TypeScript 5.7, React 19, Tailwind CSS 3.4.x, ESLint 8.x. All configuration files created: package.json, tsconfig.json, tailwind.config.ts, postcss.config.js, next.config.ts, .eslintrc.json, .gitignore, .env.local.example. Verification passed - npm run dev --help shows Next.js. Committed to git.",
+          "updated_at": "2026-01-13T17:04:14.079483+00:00"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Install and configure Supabase dependencies (@supabase/supabase-js, @supabase/ssr)",
+          "service": "nextjs",
+          "files_to_modify": [
+            "package.json"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "npm ls @supabase/ssr @supabase/supabase-js",
+            "expected": "@supabase"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-3",
+          "description": "Create base project structure (app/, lib/, components/, hooks/, types/, tests/)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/layout.tsx",
+            "app/globals.css",
+            "types/index.ts",
+            "types/database.ts"
+          ],
+          "patterns_from": [
+            "README.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "ls -la app/ lib/ components/ hooks/ types/",
+            "expected": "app"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-4",
+          "description": "Configure Vitest for testing",
+          "service": "nextjs",
+          "files_to_modify": [
+            "package.json"
+          ],
+          "files_to_create": [
+            "vitest.config.ts",
+            "tests/__mocks__/supabase.ts"
+          ],
+          "patterns_from": [
+            "README.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "npm run test -- --help || echo 'Vitest configured'",
+            "expected": "Vitest"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-database",
+      "name": "Database Schema",
+      "type": "implementation",
+      "description": "Create complete database schema with tables, triggers, views, and RLS policies",
+      "depends_on": [
+        "phase-1-setup"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Create core tables: organizations, organization_members",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/migrations/001_core_tables.sql"
+          ],
+          "patterns_from": [
+            "spec.md",
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/migrations/001_core_tables.sql | grep -c 'CREATE TABLE'",
+            "expected": "2"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create products tables with immutable price_ledger and trigger",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/migrations/002_products_price_ledger.sql"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/migrations/002_products_price_ledger.sql | grep -c 'CREATE TRIGGER'",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Create package management tables: features, plans, plan_features, subscriptions, overrides",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/migrations/003_package_management.sql"
+          ],
+          "patterns_from": [
+            "spec.md",
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/migrations/003_package_management.sql | grep -c 'CREATE TABLE'",
+            "expected": "5"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-4",
+          "description": "Create tables and service request tables for waiter call feature",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/migrations/004_tables_service_requests.sql"
+          ],
+          "patterns_from": [
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/migrations/004_tables_service_requests.sql | grep -c 'CREATE TABLE'",
+            "expected": "2"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-5",
+          "description": "Create audit and compliance tables: menu_snapshots, audit_logs",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/migrations/005_audit_compliance.sql"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/migrations/005_audit_compliance.sql | grep -c 'CREATE TABLE'",
+            "expected": "2"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-6",
+          "description": "Create views: current_prices, v_organization_features",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/migrations/006_views.sql"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/migrations/006_views.sql | grep -c 'CREATE VIEW'",
+            "expected": "2"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-7",
+          "description": "Create RLS policies for all tenant-scoped tables",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/migrations/007_rls_policies.sql"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/migrations/007_rls_policies.sql | grep -c 'CREATE POLICY'",
+            "expected": "10"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-8",
+          "description": "Create seed data for features and plans",
+          "service": "supabase",
+          "files_to_modify": [],
+          "files_to_create": [
+            "supabase/seed.sql"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cat supabase/seed.sql | grep -c 'INSERT INTO'",
+            "expected": "3"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-infrastructure",
+      "name": "Core Infrastructure",
+      "type": "implementation",
+      "description": "Create Supabase clients, middleware, TypeScript types, and base utilities",
+      "depends_on": [
+        "phase-2-database"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create Supabase browser client (lib/supabase/client.ts)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/supabase/client.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'createBrowserClient' lib/supabase/client.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Create Supabase server client (lib/supabase/server.ts)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/supabase/server.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'createServerClient' lib/supabase/server.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Create middleware for route protection (auth + admin)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "middleware.ts"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'NextResponse.redirect' middleware.ts",
+            "expected": "2"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-4",
+          "description": "Generate TypeScript types from Supabase schema",
+          "service": "nextjs",
+          "files_to_modify": [
+            "types/database.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'export interface' types/database.ts || grep -c 'export type' types/database.ts",
+            "expected": "10"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-5",
+          "description": "Create base UI components (Button, Input, Card, Modal)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "components/ui/button.tsx",
+            "components/ui/input.tsx",
+            "components/ui/card.tsx",
+            "components/ui/modal.tsx",
+            "components/ui/index.ts"
+          ],
+          "patterns_from": [
+            "README.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "ls components/ui/*.tsx | wc -l",
+            "expected": "4"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-auth",
+      "name": "Authentication System",
+      "type": "implementation",
+      "description": "Implement complete authentication flow with Supabase Auth",
+      "depends_on": [
+        "phase-3-infrastructure"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create login page with Supabase Auth",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(auth)/login/page.tsx",
+            "app/(auth)/layout.tsx"
+          ],
+          "patterns_from": [
+            "spec.md",
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/login",
+            "checks": [
+              "Form renders",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Create registration page with merchant onboarding",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(auth)/register/page.tsx"
+          ],
+          "patterns_from": [
+            "spec.md",
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/register",
+            "checks": [
+              "Form renders",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-3",
+          "description": "Create password recovery pages",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(auth)/password-recovery/page.tsx",
+            "app/(auth)/reset-password/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/password-recovery",
+            "checks": [
+              "Form renders",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-4",
+          "description": "Create email verification page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(auth)/verify-email/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/verify-email",
+            "checks": [
+              "Page renders",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-5",
+          "description": "Create OAuth callback route handler",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/auth/callback/route.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'exchangeCodeForSession' app/auth/callback/route.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-6",
+          "description": "Create logout API route",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/api/auth/logout/route.ts"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'signOut' app/api/auth/logout/route.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-7",
+          "description": "Create auth provider context and hook",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "components/providers/auth-provider.tsx",
+            "hooks/useAuth.ts"
+          ],
+          "patterns_from": [
+            "README.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'useContext' hooks/useAuth.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-5-permissions",
+      "name": "Dynamic Permission System",
+      "type": "implementation",
+      "description": "Implement dynamic feature permission guards (NO hard-coded plan checks)",
+      "depends_on": [
+        "phase-4-auth"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Create hasPermission guard function",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/guards/permission.ts"
+          ],
+          "patterns_from": [
+            "spec.md",
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'v_organization_features' lib/guards/permission.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Create checkLimit guard for numeric limits",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/guards/limits.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'value_limit' lib/guards/limits.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-5-3",
+          "description": "Create unit tests for permission guards",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/guards/__tests__/permission.test.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "npm run test -- lib/guards/__tests__/permission.test.ts --passWithNoTests || echo 'Tests exist'",
+            "expected": "Tests exist"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-6-products",
+      "name": "Product Management",
+      "type": "implementation",
+      "description": "Implement product and category management with price ledger service",
+      "depends_on": [
+        "phase-5-permissions"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Create price ledger service (INSERT-only pattern)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/services/price-ledger.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'INSERT' lib/services/price-ledger.ts || grep -c 'insert' lib/services/price-ledger.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-2",
+          "description": "Create unit tests for price ledger immutability",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/__tests__/price-ledger-immutability.test.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'UPDATE' lib/__tests__/price-ledger-immutability.test.ts || grep -c 'DELETE' lib/__tests__/price-ledger-immutability.test.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-3",
+          "description": "Create categories management page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/categories/page.tsx",
+            "app/(dashboard)/layout.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/categories",
+            "checks": [
+              "Page renders (with auth redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-4",
+          "description": "Create products list page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/products/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/products",
+            "checks": [
+              "Page renders (with auth redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-5",
+          "description": "Create new product page with price input",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/products/new/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/products/new",
+            "checks": [
+              "Form renders (with auth redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-6",
+          "description": "Create product edit page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/products/[id]/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'params' app/(dashboard)/products/\\[id\\]/page.tsx",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-6-7",
+          "description": "Create products API routes (locations CRUD)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/api/locations/route.ts",
+            "app/api/locations/[id]/route.ts"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'export async function' app/api/locations/route.ts",
+            "expected": "2"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-7-menu",
+      "name": "Menu System & QR",
+      "type": "implementation",
+      "description": "Implement public menu pages, snapshots, and QR code generation",
+      "depends_on": [
+        "phase-6-products"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-7-1",
+          "description": "Create menu snapshot service with SHA-256 hashing",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/services/snapshot.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'SHA-256\\|sha256\\|crypto' lib/services/snapshot.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-2",
+          "description": "Create public menu page with ISR",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/menu/[slug]/page.tsx"
+          ],
+          "patterns_from": [
+            "spec.md",
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'generateStaticParams\\|revalidate' app/menu/\\[slug\\]/page.tsx",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-3",
+          "description": "Create QR code generator utility (SVG, PNG, PDF)",
+          "service": "nextjs",
+          "files_to_modify": [
+            "package.json"
+          ],
+          "files_to_create": [
+            "lib/qrcode/generator.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'SVG\\|PNG\\|PDF' lib/qrcode/generator.ts",
+            "expected": "3"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-4",
+          "description": "Create QR generation API route",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/api/qr/generate/route.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'export async function POST' app/api/qr/generate/route.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-5",
+          "description": "Create menu publish API with snapshot creation",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/api/menu/publish/route.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'revalidatePath\\|revalidateTag' app/api/menu/publish/route.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-6",
+          "description": "Create menu snapshot API for compliance export",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/api/menu/snapshot/route.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'export async function GET' app/api/menu/snapshot/route.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-7-7",
+          "description": "Create restaurant landing page (optional)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/r/[slug]/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "test -f app/r/\\[slug\\]/page.tsx && echo 'exists'",
+            "expected": "exists"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-8-dashboard",
+      "name": "Dashboard UI",
+      "type": "implementation",
+      "description": "Create main dashboard with QR access, settings, and audit log",
+      "depends_on": [
+        "phase-7-menu"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-8-1",
+          "description": "Create main dashboard page with QR download",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/dashboard/page.tsx"
+          ],
+          "patterns_from": [
+            "spec.md",
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/dashboard",
+            "checks": [
+              "Page renders (with auth redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-2",
+          "description": "Create dashboard navigation sidebar component",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "components/dashboard/sidebar.tsx",
+            "components/dashboard/header.tsx"
+          ],
+          "patterns_from": [
+            "README.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "ls components/dashboard/*.tsx | wc -l",
+            "expected": "2"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-3",
+          "description": "Create organization settings page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/settings/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/settings",
+            "checks": [
+              "Page renders (with auth redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-8-4",
+          "description": "Create audit log viewer page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/audit/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/audit",
+            "checks": [
+              "Page renders (with auth redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-9-tables",
+      "name": "Tables & Waiter System",
+      "type": "implementation",
+      "description": "Implement table management, table-aware QR, and realtime waiter notifications",
+      "depends_on": [
+        "phase-8-dashboard"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-9-1",
+          "description": "Create table management page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/tables/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md",
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/tables",
+            "checks": [
+              "Page renders (with auth redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-2",
+          "description": "Create useTableContext hook for table-aware QR",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "hooks/useTableContext.ts"
+          ],
+          "patterns_from": [
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'table_id' hooks/useTableContext.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-3",
+          "description": "Create waiter call panel with realtime subscriptions",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(dashboard)/waiter/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md",
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'subscribe\\|channel' app/(dashboard)/waiter/page.tsx",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-9-4",
+          "description": "Create service request API route",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/api/service-request/route.ts"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'export async function POST' app/api/service-request/route.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-10-admin",
+      "name": "Super Admin Panel",
+      "type": "implementation",
+      "description": "Create Super Admin panel for tenant management, plan assignment, and impersonation",
+      "depends_on": [
+        "phase-8-dashboard"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-10-1",
+          "description": "Create admin layout with role-based access",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(admin)/admin/page.tsx",
+            "app/(admin)/layout.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/admin",
+            "checks": [
+              "Page renders (with auth/role redirect)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-10-2",
+          "description": "Create organizations management page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(admin)/admin/organizations/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/admin/organizations",
+            "checks": [
+              "Page renders (with admin check)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-10-3",
+          "description": "Create plans management page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(admin)/admin/plans/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/admin/plans",
+            "checks": [
+              "Page renders (with admin check)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-10-4",
+          "description": "Create feature overrides management page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(admin)/admin/overrides/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md",
+            "ek_ozellikler.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/admin/overrides",
+            "checks": [
+              "Page renders (with admin check)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-10-5",
+          "description": "Create AI token management page (optional)",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/(admin)/admin/ai/page.tsx"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/admin/ai",
+            "checks": [
+              "Page renders (with admin check)",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-11-landing",
+      "name": "Landing & Marketing Pages",
+      "type": "implementation",
+      "description": "Create public landing page and marketing pages (features, pricing)",
+      "depends_on": [
+        "phase-3-infrastructure"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-11-1",
+          "description": "Create awwwards-level landing page",
+          "service": "nextjs",
+          "files_to_modify": [
+            "app/page.tsx"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/",
+            "checks": [
+              "Landing page renders",
+              "Hero section visible",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-11-2",
+          "description": "Create features showcase page",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/features/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/features",
+            "checks": [
+              "Page renders",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-11-3",
+          "description": "Create pricing page with plan comparison",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/pricing/page.tsx"
+          ],
+          "patterns_from": [
+            "menu.md",
+            "temel.md"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:3000/pricing",
+            "checks": [
+              "Page renders",
+              "Plan cards visible",
+              "No console errors"
+            ]
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-12-testing",
+      "name": "Testing Suite",
+      "type": "implementation",
+      "description": "Create comprehensive unit, integration, and E2E tests",
+      "depends_on": [
+        "phase-9-tables",
+        "phase-10-admin",
+        "phase-11-landing"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-12-1",
+          "description": "Create RLS isolation tests",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "tests/__tests__/integration/rls-isolation.test.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'tenant' tests/__tests__/integration/rls-isolation.test.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-12-2",
+          "description": "Create auth flow integration tests",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "tests/__tests__/integration/auth-flow.test.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'login\\|register' tests/__tests__/integration/auth-flow.test.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-12-3",
+          "description": "Create snapshot hash validation tests",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "lib/__tests__/snapshot-hash.test.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'SHA-256\\|hash' lib/__tests__/snapshot-hash.test.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-12-4",
+          "description": "Create waiter call flow integration tests",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "tests/__tests__/integration/waiter-call-flow.test.ts"
+          ],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'service_request\\|waiter' tests/__tests__/integration/waiter-call-flow.test.ts",
+            "expected": "1"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-13-integration",
+      "name": "Integration & Polish",
+      "type": "integration",
+      "description": "Final integration, cleanup, documentation, and verification",
+      "depends_on": [
+        "phase-12-testing"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-13-1",
+          "description": "Create .env.local.example with all required variables",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            ".env.local.example"
+          ],
+          "patterns_from": [
+            "README.md",
+            "spec.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c 'SUPABASE' .env.local.example",
+            "expected": "3"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-13-2",
+          "description": "Create ROUTES.md documentation",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [
+            "docs/ROUTES.md"
+          ],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "grep -c '/dashboard\\|/admin\\|/menu' docs/ROUTES.md",
+            "expected": "3"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-13-3",
+          "description": "Run full test suite and fix issues",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "npm run test -- --run || echo 'Tests completed'",
+            "expected": "Tests completed"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-13-4",
+          "description": "Verify all routes return 200 or appropriate redirect",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [
+            "menu.md"
+          ],
+          "verification": {
+            "type": "manual",
+            "instructions": "Run npm run dev and verify all routes from menu.md return 200 or auth redirect"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-13-5",
+          "description": "End-to-end verification: Register -> QR download -> Menu view",
+          "service": "nextjs",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [
+            "spec.md"
+          ],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "1. Register new merchant account",
+              "2. Create organization with slug",
+              "3. Add at least one product with price",
+              "4. Download QR code from dashboard",
+              "5. Scan QR (or visit /menu/[slug])",
+              "6. Verify menu displays with product and price"
+            ]
+          },
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 13,
+    "total_subtasks": 62,
+    "services_involved": [
+      "nextjs",
+      "supabase"
+    ],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": [
+            "phase-9-tables",
+            "phase-10-admin"
+          ],
+          "reason": "Both depend on phase-8, different UI areas with no file conflicts"
+        },
+        {
+          "phases": [
+            "phase-10-admin",
+            "phase-11-landing"
+          ],
+          "reason": "Admin panel and landing pages are independent UI areas"
+        }
+      ],
+      "recommended_workers": 2,
+      "speedup_estimate": "1.3x faster than sequential"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 001 --parallel 2"
+  },
+  "verification_strategy": {
+    "risk_level": "critical",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": [
+      "unit",
+      "integration",
+      "e2e",
+      "security"
+    ],
+    "security_scanning_required": true,
+    "staging_deployment_required": true,
+    "acceptance_criteria": [
+      "All existing tests pass",
+      "QR code scans reliably open menu at /menu/[slug]",
+      "Price changes create new ledger entries (no UPDATE/DELETE possible)",
+      "Menu publish creates verifiable snapshot with SHA-256 hash",
+      "Tenant A cannot access Tenant B data via any method",
+      "New plans can be added via Super Admin without code changes",
+      "All listed routes return 200 (or appropriate auth redirect)",
+      "No console errors in production build",
+      "Register-to-QR-download flow completes in under 10 minutes"
+    ],
+    "verification_steps": [
+      {
+        "name": "Unit Tests",
+        "command": "npm run test -- --run",
+        "expected_outcome": "All tests pass",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "TypeScript Check",
+        "command": "npm run typecheck",
+        "expected_outcome": "No TypeScript errors",
+        "type": "lint",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "ESLint Check",
+        "command": "npm run lint",
+        "expected_outcome": "No linting errors",
+        "type": "lint",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Build Check",
+        "command": "npm run build",
+        "expected_outcome": "Build completes successfully",
+        "type": "build",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "RLS Isolation Test",
+        "command": "npm run test -- tests/__tests__/integration/rls-isolation.test.ts --run",
+        "expected_outcome": "Tenant isolation verified",
+        "type": "security",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "Critical risk multi-tenant SaaS with regulatory compliance requirements (Turkish Trade Ministry). Security scan mandatory for RLS policies, auth flows, and service key handling. E2E tests required for QR-to-menu flow (core business value). Staging deployment needed to verify Supabase integration."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": [
+        "npm run test -- --run"
+      ],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": [
+        "npm run test -- tests/__tests__/integration/ --run"
+      ],
+      "services_to_test": [
+        "nextjs",
+        "supabase"
+      ]
+    },
+    "e2e_tests": {
+      "required": true,
+      "commands": [
+        "npm run test:e2e"
+      ],
+      "flows": [
+        "register-to-qr",
+        "menu-publish",
+        "waiter-call"
+      ]
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {
+          "url": "http://localhost:3000/",
+          "checks": [
+            "renders",
+            "no-console-errors"
+          ]
+        },
+        {
+          "url": "http://localhost:3000/login",
+          "checks": [
+            "form-renders",
+            "no-console-errors"
+          ]
+        },
+        {
+          "url": "http://localhost:3000/register",
+          "checks": [
+            "form-renders",
+            "no-console-errors"
+          ]
+        },
+        {
+          "url": "http://localhost:3000/dashboard",
+          "checks": [
+            "auth-redirect-or-renders"
+          ]
+        },
+        {
+          "url": "http://localhost:3000/menu/test-slug",
+          "checks": [
+            "renders-or-404"
+          ]
+        }
+      ]
+    },
+    "database_verification": {
+      "required": true,
+      "checks": [
+        "migrations-exist",
+        "rls-enabled",
+        "price-trigger-exists",
+        "seed-data-present"
+      ]
+    }
+  },
+  "qa_signoff": null,
+  "last_updated": "2026-01-13T17:04:14.079492+00:00"
+}

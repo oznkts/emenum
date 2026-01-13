@@ -1,0 +1,181 @@
+=== AUTO-BUILD PROGRESS ===
+
+Project: e-menum.net - Hygienic QR Menu SaaS Platform
+Spec: 001-ozon-e-menum-net-vibe-coding-v1
+Workspace: /Users/karaca/Desktop/ozon
+Started: 2026-01-13
+
+================================================================================
+WORKFLOW TYPE: feature (Greenfield SaaS Platform)
+================================================================================
+
+Rationale: Complete greenfield implementation of a multi-tenant SaaS platform
+requiring database schema, authentication, business logic services, UI components,
+and comprehensive testing. Feature workflow follows service dependency order.
+
+================================================================================
+SESSION 1 (Planner Agent) - COMPLETED
+================================================================================
+
+Deliverables:
+- [x] Created project_index.json (project structure and conventions)
+- [x] Created context.json (files to modify, patterns to follow)
+- [x] Created implementation_plan.json (13 phases, 62 subtasks)
+- [x] Created init.sh (development environment setup script)
+- [x] Created build-progress.txt (this file)
+
+Investigation Findings:
+- Project Type: Greenfield (no existing source code)
+- Tech Stack: Next.js 15.1, TypeScript 5.7, Tailwind CSS 3.4, Supabase, Vercel
+- Critical Patterns Identified:
+  1. Immutable Price Ledger (INSERT-only with DB triggers)
+  2. Dynamic Permission System (no hard-coded plan checks)
+  3. Multi-Tenant RLS isolation
+  4. Supabase Client Separation (Browser vs Server)
+
+================================================================================
+PHASE SUMMARY
+================================================================================
+
+Phase 1: Project Setup (4 subtasks)
+  - Initialize Next.js 15.1 with TypeScript, Tailwind, Vitest
+  - Depends on: None
+  - Status: PENDING
+
+Phase 2: Database Schema (8 subtasks)
+  - Create tables, triggers, views, RLS policies
+  - Depends on: Phase 1
+  - Status: PENDING
+  - Critical: price_ledger immutability trigger
+
+Phase 3: Core Infrastructure (5 subtasks)
+  - Supabase clients, middleware, types, base UI
+  - Depends on: Phase 2
+  - Status: PENDING
+
+Phase 4: Authentication System (7 subtasks)
+  - Login, register, password recovery, OAuth, auth provider
+  - Depends on: Phase 3
+  - Status: PENDING
+
+Phase 5: Dynamic Permission System (3 subtasks)
+  - hasPermission guard, limit checks, tests
+  - Depends on: Phase 4
+  - Status: PENDING
+  - Critical: NO hard-coded plan checks
+
+Phase 6: Product Management (7 subtasks)
+  - Price ledger service, categories, products CRUD
+  - Depends on: Phase 5
+  - Status: PENDING
+
+Phase 7: Menu System & QR (7 subtasks)
+  - Snapshots, public menu, QR generation (SVG/PNG/PDF)
+  - Depends on: Phase 6
+  - Status: PENDING
+  - Critical: QR core functionality
+
+Phase 8: Dashboard UI (4 subtasks)
+  - Dashboard, sidebar, settings, audit log
+  - Depends on: Phase 7
+  - Status: PENDING
+
+Phase 9: Tables & Waiter System (4 subtasks)
+  - Table management, realtime waiter notifications
+  - Depends on: Phase 8
+  - Status: PENDING
+
+Phase 10: Super Admin Panel (5 subtasks)
+  - Admin layout, organizations, plans, overrides, AI
+  - Depends on: Phase 8
+  - Status: PENDING
+  - Parallel: Can run with Phase 9
+
+Phase 11: Landing & Marketing Pages (3 subtasks)
+  - Landing page, features, pricing
+  - Depends on: Phase 3
+  - Status: PENDING
+  - Parallel: Can run independently
+
+Phase 12: Testing Suite (4 subtasks)
+  - RLS isolation, auth flow, snapshot hash, waiter call tests
+  - Depends on: Phases 9, 10, 11
+  - Status: PENDING
+
+Phase 13: Integration & Polish (5 subtasks)
+  - Environment docs, routes docs, final verification
+  - Depends on: Phase 12
+  - Status: PENDING
+
+================================================================================
+SERVICES INVOLVED
+================================================================================
+
+- nextjs: Full-stack Next.js 15.1 application (port 3000)
+- supabase: PostgreSQL + Auth + Storage + Realtime (ports 54321/54322/54323)
+
+================================================================================
+PARALLELISM ANALYSIS
+================================================================================
+
+Max Parallel Phases: 2
+Recommended Workers: 2
+Speedup Estimate: 1.3x faster than sequential
+
+Parallel Groups:
+1. [phase-9-tables, phase-10-admin] - Both depend on phase-8, different areas
+2. [phase-10-admin, phase-11-landing] - Independent UI areas
+
+================================================================================
+CRITICAL REQUIREMENTS (NON-NEGOTIABLE)
+================================================================================
+
+1. QR CORE: Customer scans QR -> accesses menu (everything else is supplementary)
+2. PRICE LEDGER: INSERT-only pattern with DB trigger blocking UPDATE/DELETE
+3. MENU SNAPSHOTS: SHA-256 hash verification for regulatory compliance
+4. MULTI-TENANT: RLS policies on all tenant-scoped tables
+5. DYNAMIC PLANS: NO hard-coded plan checks (query v_organization_features)
+6. RELATIVE URLS: All internal links must be relative (domain-independent)
+
+================================================================================
+STARTUP COMMAND
+================================================================================
+
+To continue building this spec, run:
+
+  source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 001 --parallel 2
+
+Or manually:
+
+  cd /Users/karaca/Desktop/ozon
+  chmod +x .auto-claude/specs/001-ozon-e-menum-net-vibe-coding-v1/init.sh
+  ./.auto-claude/specs/001-ozon-e-menum-net-vibe-coding-v1/init.sh
+
+================================================================================
+VERIFICATION STRATEGY
+================================================================================
+
+Risk Level: CRITICAL
+Test Types Required: unit, integration, e2e, security
+Security Scanning: Required
+Staging Deployment: Required
+
+Key Verification Steps:
+1. npm run test -- --run (unit tests)
+2. npm run typecheck (TypeScript)
+3. npm run lint (ESLint)
+4. npm run build (production build)
+5. RLS isolation tests (security)
+
+================================================================================
+=== END SESSION 1 (PLANNER) ===
+================================================================================
+
+Next Steps:
+1. A coder agent will read implementation_plan.json
+2. Coder will find next pending subtask (respecting dependencies)
+3. Coder will implement code changes
+4. Coder will verify and commit each subtask
+5. QA agent will perform final sign-off
+
+Do NOT push to remote until user reviews and approves.
