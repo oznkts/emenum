@@ -1,0 +1,7 @@
+# This directory contains custom React hooks
+# Key hooks:
+# - hooks/use-supabase.ts - Supabase client hook
+# - hooks/use-organization.ts - Current organization context
+# - hooks/use-permissions.ts - Feature permission checks
+# - hooks/use-realtime.ts - Supabase realtime subscriptions
+# - hooks/use-menu-builder.ts - Menu builder state management

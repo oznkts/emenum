@@ -1,0 +1,7 @@
+# This directory contains React components
+# Key subdirectories:
+# - components/ui/ - Reusable UI primitives (Button, Input, Modal, etc.)
+# - components/forms/ - Form components
+# - components/layout/ - Layout components (Header, Footer, Sidebar, etc.)
+# - components/menu/ - Menu builder and display components
+# - components/dashboard/ - Dashboard-specific components
