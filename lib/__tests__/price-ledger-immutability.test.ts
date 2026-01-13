@@ -387,7 +387,7 @@ describe('Price Ledger Immutability', () => {
        * 'UPDATE and DELETE are not allowed on price_ledger'
        */
 
-      const expectedErrorRegex = /DELETE.*not allowed|not allowed.*DELETE/i
+      const _expectedErrorRegex = /DELETE.*not allowed|not allowed.*DELETE/i
       const triggerMessage = 'UPDATE and DELETE are not allowed on price_ledger'
       expect(triggerMessage).toMatch(/DELETE/)
     })
@@ -809,7 +809,7 @@ describe('Price Ledger Immutability', () => {
 
     it('should record who made each price change', async () => {
       // Each entry must track changed_by for accountability
-      const { from, queryBuilder } = createMockQueryBuilder({
+      const { from, queryBuilder: _queryBuilder } = createMockQueryBuilder({
         insertData: mockPriceLedgerEntry,
       })
       mockSupabaseFrom = from
