@@ -518,7 +518,9 @@
             "command": "grep -c 'exchangeCodeForSession' app/auth/callback/route.ts",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created app/auth/callback/route.ts for OAuth provider callback handling:\\n- Exchanges authorization code for session using exchangeCodeForSession (verification passed: exactly 1 occurrence)\\n- Handles OAuth errors (user denied access, invalid code, missing code)\\n- Supports 'next' parameter for custom redirect after authentication\\n- Uses Turkish error messages consistent with other auth pages\\n- Follows Supabase SSR patterns with proper cookie handling\\n- TypeScript and ESLint checks pass\\nCommitted in ead726d.",
+          "updated_at": "2026-01-13T17:49:06.878098+00:00"
         },
         {
           "id": "subtask-4-6",
@@ -1659,5 +1661,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-13T17:47:42.227491+00:00"
+  "last_updated": "2026-01-13T17:49:06.878107+00:00"
 }
