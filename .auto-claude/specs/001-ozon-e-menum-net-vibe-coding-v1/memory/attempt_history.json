@@ -383,11 +383,95 @@
         }
       ],
       "status": "completed"
+    },
+    "subtask-6-6": {
+      "attempts": [
+        {
+          "session": 33,
+          "timestamp": "2026-01-13T21:33:33.791159",
+          "approach": "Implemented: Create product edit page",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-6-7": {
+      "attempts": [
+        {
+          "session": 34,
+          "timestamp": "2026-01-13T21:37:09.375959",
+          "approach": "Implemented: Create products API routes (locations CRUD)",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-7-1": {
+      "attempts": [
+        {
+          "session": 35,
+          "timestamp": "2026-01-13T21:40:17.657747",
+          "approach": "Implemented: Create menu snapshot service with SHA-256 hashing",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-7-2": {
+      "attempts": [
+        {
+          "session": 36,
+          "timestamp": "2026-01-13T21:43:19.972329",
+          "approach": "Implemented: Create public menu page with ISR",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-7-3": {
+      "attempts": [
+        {
+          "session": 37,
+          "timestamp": "2026-01-13T21:47:20.771908",
+          "approach": "Implemented: Create QR code generator utility (SVG, PNG, PDF)",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-7-4": {
+      "attempts": [
+        {
+          "session": 38,
+          "timestamp": "2026-01-13T21:49:32.056777",
+          "approach": "Implemented: Create QR generation API route",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-7-5": {
+      "attempts": [
+        {
+          "session": 39,
+          "timestamp": "2026-01-13T21:51:28.435181",
+          "approach": "Implemented: Create menu publish API with snapshot creation",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
     }
   },
   "stuck_subtasks": [],
   "metadata": {
     "created_at": "2026-01-13T20:01:21.132877",
-    "last_updated": "2026-01-13T21:31:13.563043"
+    "last_updated": "2026-01-13T21:51:28.435184"
   }
 }

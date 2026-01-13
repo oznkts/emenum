@@ -774,7 +774,9 @@
             "command": "grep -c 'params' app/(dashboard)/products/\\[id\\]/page.tsx",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created product edit page at app/(dashboard)/products/[id]/page.tsx with:\n- Dynamic route params handling for Next.js 15 (Promise-based params)\n- Product data loading with current price from price ledger view\n- Form with all product fields: name, description, category, price, allergens, image URL, visibility\n- Immutable price ledger pattern - price changes create new entries for compliance\n- Delete product functionality with confirmation modal\n- Turkish localized UI following existing patterns\n- Price history preservation note for regulatory compliance\n- Image preview for URL input\n\nVerification passed: grep -c 'params' = 5 (expected >= 1)\nESLint: 1 warning (img vs Image) - consistent with existing codebase pattern\nTypeScript: passes for this file (pre-existing test file errors unrelated)\nCommitted in 2822404.",
+          "updated_at": "2026-01-13T18:33:27.003225+00:00"
         },
         {
           "id": "subtask-6-7",
@@ -793,7 +795,9 @@
             "command": "grep -c 'export async function' app/api/locations/route.ts",
             "expected": "2"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created locations (organizations) CRUD API routes:\n- app/api/locations/route.ts: GET (list) and POST (create) - verification passed: 2 exported async functions\n- app/api/locations/[id]/route.ts: GET (single), PUT (update), DELETE - 3 exported async functions\n\nFeatures implemented:\n- Full RBAC permission checking (viewer < waiter < manager < admin < owner)\n- Slug uniqueness validation with auto-increment fallback\n- UUID validation for location IDs\n- Turkish error messages for user-facing errors\n- Creating user automatically becomes owner\n- Only owner can delete location\n- Admin or higher can update location\n\nCommitted in 7eac8b6.",
+          "updated_at": "2026-01-13T18:37:01.871303+00:00"
         }
       ]
     },
@@ -823,7 +827,9 @@
             "command": "grep -c 'SHA-256\\|sha256\\|crypto' lib/services/snapshot.ts",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created lib/services/snapshot.ts with menu snapshot service implementing SHA-256 hashing for Turkish Trade Ministry regulatory compliance.\n\nKey features implemented:\n- createMenuSnapshot(): Generate versioned snapshot with cryptographic hash\n- generateSHA256Hash(): Web Crypto API for SHA-256 hashing\n- verifySnapshotHash(): Integrity verification for compliance proof\n- getCurrentMenuSnapshot(): Latest published menu retrieval\n- getSnapshotHistory(): Paginated version history for audits\n- compareSnapshots(): Diff between versions\n- exportSnapshotForCompliance(): Regulatory export format\n- getCurrentMenuSnapshotBySlug(): Public menu page support\n\nVerification passed: grep found 12 occurrences of SHA-256/sha256/crypto (expected >= 1)\nESLint: passes with 0 errors/warnings\nTypeScript: snapshot.ts compiles without errors\nCommitted in b968b9d.",
+          "updated_at": "2026-01-13T18:40:04.144407+00:00"
         },
         {
           "id": "subtask-7-2",
@@ -842,7 +848,9 @@
             "command": "grep -c 'generateStaticParams\\|revalidate' app/menu/\\[slug\\]/page.tsx",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created public menu page with ISR at app/menu/[slug]/page.tsx. Features: generateStaticParams for pre-generation, revalidate=60 for ISR, snapshot service integration, category-grouped product display, allergen badges, Turkish locale price formatting, Next.js Image/Link components, 404 handling, dynamic SEO metadata. Commit: 988618a",
+          "updated_at": "2026-01-13T18:43:10.833102+00:00"
         },
         {
           "id": "subtask-7-3",
@@ -862,7 +870,9 @@
             "command": "grep -c 'SVG\\|PNG\\|PDF' lib/qrcode/generator.ts",
             "expected": "3"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created QR code generator utility with SVG, PNG (1024/2048/4096), and A5 PDF support. Added qrcode and @types/qrcode dependencies. Verification passed (95 matches for SVG|PNG|PDF, expected >= 3). Committed as 11e5066.",
+          "updated_at": "2026-01-13T18:47:05.705297+00:00"
         },
         {
           "id": "subtask-7-4",
@@ -880,7 +890,9 @@
             "command": "grep -c 'export async function POST' app/api/qr/generate/route.ts",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created POST /api/qr/generate endpoint. Supports SVG, PNG (1024/2048/4096px), and A5 PDF formats. Includes user authentication, organization access verification, optional table-specific QR codes, and customizable options. Verification passed: grep -c 'export async function POST' returns 1.",
+          "updated_at": "2026-01-13T18:49:25.214813+00:00"
         },
         {
           "id": "subtask-7-5",
@@ -898,7 +910,9 @@
             "command": "grep -c 'revalidatePath\\|revalidateTag' app/api/menu/publish/route.ts",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created menu publish API at app/api/menu/publish/route.ts with snapshot creation and ISR revalidation. Features: auth validation, organization membership check, role-based access (owner/admin/manager), UUID validation, immutable snapshot creation via createMenuSnapshot(), revalidatePath for ISR. Verification passed (grep count: 2 for revalidatePath).",
+          "updated_at": "2026-01-13T18:51:20.975437+00:00"
         },
         {
           "id": "subtask-7-6",
@@ -1681,5 +1695,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-13T18:31:07.248454+00:00"
+  "last_updated": "2026-01-13T18:51:20.975446+00:00"
 }

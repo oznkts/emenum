@@ -59,7 +59,22 @@
       "description": "Products list page with CRUD - displays products with current prices from view, supports search/category filtering, modal forms for add/edit, price changes go to immutable price_ledger, visibility toggle, Turkish UI",
       "category": "dashboard",
       "discovered_at": "2026-01-13T18:27:43.683824+00:00"
+    },
+    "lib/services/snapshot.ts": {
+      "description": "Menu snapshot service implementing SHA-256 hashing for Turkish Trade Ministry compliance. Uses Web Crypto API (crypto.subtle.digest) for hashing. Key functions: createMenuSnapshot() for publishing, verifySnapshotHash() for integrity checks, getCurrentMenuSnapshotBySlug() for public menu pages. Snapshots include organization info, visible categories, products with current prices, and metadata. Follows price-ledger.ts patterns with Turkish error messages and comprehensive JSDoc.",
+      "category": "service",
+      "discovered_at": "2026-01-13T18:40:09.949310+00:00"
+    },
+    "lib/qrcode/generator.ts": {
+      "description": "QR code generator utility supporting SVG, PNG (1024/2048/4096px), and A5 PDF formats. Uses 'qrcode' npm package with 'import * as QRCode from \"qrcode\"' syntax. High error correction level (H) for reliability. Supports table-specific QR codes via tableId parameter. Key functions: generateQRCodeSVG(), generateQRCodePNG(), generateQRCodePDF(), generateAllQRCodeFormats(). Turkish error messages for user-facing errors.",
+      "category": "utility",
+      "discovered_at": "2026-01-13T18:47:11.138688+00:00"
+    },
+    "app/api/menu/publish/route.ts": {
+      "description": "Menu publish API route implementing POST /api/menu/publish. Creates immutable menu snapshot with SHA-256 hash using createMenuSnapshot() from lib/services/snapshot.ts. Triggers ISR revalidation via revalidatePath for public menu page. Requires auth + organization membership with owner/admin/manager role. Returns snapshotId, version, hash, and publishedAt. Turkish error messages follow existing patterns.",
+      "category": "api",
+      "discovered_at": "2026-01-13T18:51:21.025772+00:00"
     }
   },
-  "last_updated": "2026-01-13T18:27:43.683832+00:00"
+  "last_updated": "2026-01-13T18:51:21.025780+00:00"
 }
