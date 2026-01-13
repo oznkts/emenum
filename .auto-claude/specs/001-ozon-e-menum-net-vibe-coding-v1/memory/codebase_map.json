@@ -24,7 +24,42 @@
       "description": "Base UI component library with Button (5 variants, 3 sizes), Input/Textarea (with label/error states), Card (with Header/Content/Footer sub-components), Modal (with ConfirmModal variant). All components use forwardRef, proper ARIA attributes, and support dark mode via CSS variables.",
       "category": "architecture",
       "discovered_at": "2026-01-13T17:31:31.199273+00:00"
+    },
+    "app/api/auth/logout/route.ts": {
+      "description": "Logout API route uses POST method with Supabase Auth signOut(). Creates server client with cookie handling pattern from @supabase/ssr. Returns JSON error on failure (500), redirects to home on success. Turkish error messages used for user-facing errors.",
+      "category": "auth",
+      "discovered_at": "2026-01-13T17:50:25.099895+00:00"
+    },
+    "components/providers/auth-provider.tsx": {
+      "description": "Auth context provider pattern using Supabase auth.onAuthStateChange subscription. Automatically fetches organization membership and details when user signs in. Supports multi-organization users via setCurrentOrganization. useAuth hook in hooks/useAuth.ts provides typed access to context with error on missing provider.",
+      "category": "pattern",
+      "discovered_at": "2026-01-13T17:52:17.993527+00:00"
+    },
+    "lib/guards/__tests__/permission.test.ts": {
+      "description": "Permission guard unit tests with 27 comprehensive tests covering all exported functions from permission.ts. Uses mocked Supabase client with custom createMockQueryBuilder factory. Tests verify dynamic feature flagging pattern (no hard-coded plan checks), override precedence, limit handling (including unlimited plans with -1), and edge cases. vitest.config.ts updated to include tests from lib/**/__tests__/.",
+      "category": "testing",
+      "discovered_at": "2026-01-13T18:09:06.425763+00:00"
+    },
+    "lib/services/price-ledger.ts": {
+      "description": "Price ledger service implementing INSERT-only immutable pattern for Turkish Trade Ministry compliance. Uses current_prices database view for latest price retrieval. Key functions: addPriceEntry() (INSERT only), getCurrentPrice(), getPriceHistory(). Exports exportPriceLedgerForCompliance() for regulatory reporting. All operations use createServerSupabaseClient and follow existing guard patterns.",
+      "category": "service",
+      "discovered_at": "2026-01-13T18:11:24.466279+00:00"
+    },
+    "lib/__tests__/price-ledger-immutability.test.ts": {
+      "description": "Comprehensive unit tests for price ledger immutability pattern (30 tests). Tests verify INSERT-only ledger pattern for Turkish Trade Ministry compliance. Uses mocked Supabase client with custom createMockQueryBuilder factory that properly handles .insert().select().single() chain. Covers: INSERT operations, UPDATE/DELETE blocking verification, current price view, price history queries with pagination, input validation, price statistics, and compliance export functionality.",
+      "category": "testing",
+      "discovered_at": "2026-01-13T18:17:02.977382+00:00"
+    },
+    "app/(dashboard)/layout.tsx": {
+      "description": "Dashboard layout with sidebar navigation - uses useAuth hook for organization/user info, mobile-responsive with hamburger menu, includes all navigation routes (Dashboard, Categories, Products, Tables, Waiter, Audit, Settings)",
+      "category": "component",
+      "discovered_at": "2026-01-13T18:23:42.679846+00:00"
+    },
+    "app/(dashboard)/products/page.tsx": {
+      "description": "Products list page with CRUD - displays products with current prices from view, supports search/category filtering, modal forms for add/edit, price changes go to immutable price_ledger, visibility toggle, Turkish UI",
+      "category": "dashboard",
+      "discovered_at": "2026-01-13T18:27:43.683824+00:00"
     }
   },
-  "last_updated": "2026-01-13T17:31:31.199282+00:00"
+  "last_updated": "2026-01-13T18:27:43.683832+00:00"
 }
