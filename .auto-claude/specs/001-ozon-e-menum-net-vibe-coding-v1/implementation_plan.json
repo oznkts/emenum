@@ -234,7 +234,9 @@
             "command": "cat supabase/migrations/006_views.sql | grep -c 'CREATE VIEW'",
             "expected": "2"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created 006_views.sql with 2 views: current_prices (DISTINCT ON view for latest price per product from immutable price_ledger) and v_organization_features (joins subscriptions, plans, plan_features, features for easy permission checks). Verification passed (2 CREATE VIEW statements).",
+          "updated_at": "2026-01-13T17:19:06.103717+00:00"
         },
         {
           "id": "subtask-2-7",
@@ -252,7 +254,9 @@
             "command": "cat supabase/migrations/007_rls_policies.sql | grep -c 'CREATE POLICY'",
             "expected": "10"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created 007_rls_policies.sql with:\n- Enable RLS on 10 tenant-scoped tables\n- Helper functions: auth.is_org_member() and auth.user_org_ids() for reusable membership checks\n- 10 RLS policies implementing multi-tenant isolation:\n  1. organizations SELECT - members can view their orgs\n  2. organization_members SELECT - members can view team\n  3. categories ALL - full CRUD for members\n  4. products ALL - full CRUD for members\n  5. price_ledger ALL - SELECT/INSERT only (UPDATE/DELETE blocked by trigger)\n  6. restaurant_tables ALL - full CRUD for members\n  7. service_requests ALL - full CRUD for members\n  8. menu_snapshots ALL - full CRUD for members\n  9. audit_logs SELECT - view only (INSERT via service role)\n  10. subscriptions SELECT - view only (management via admin)\nAll policies use auth.uid() and organization_members for membership lookup. Verification passed: exactly 10 CREATE POLICY statements.",
+          "updated_at": "2026-01-13T17:21:00.225127+00:00"
         },
         {
           "id": "subtask-2-8",
@@ -270,7 +274,9 @@
             "command": "cat supabase/seed.sql | grep -c 'INSERT INTO'",
             "expected": "3"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created supabase/seed.sql with:\n- 24 features across 4 categories (limits, modules, support, ai)\n- 5 plans (Free, Lite, Gold, Platinum, Enterprise) with Turkish Lira pricing\n- Plan-feature mappings using CROSS JOIN with CASE statements for dynamic assignment\n- Proper limits for each plan tier (e.g., Free: 3 categories/20 products, Enterprise: unlimited)\n- All boolean module features mapped appropriately per plan tier\n\nVerification passed: exactly 3 INSERT INTO statements as expected.\nCommitted in def9b6d.",
+          "updated_at": "2026-01-13T17:23:03.407359+00:00"
         }
       ]
     },
@@ -300,7 +306,9 @@
             "command": "grep -c 'createBrowserClient' lib/supabase/client.ts",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created lib/supabase/client.ts with createBrowserClient factory function following spec pattern. Uses @supabase/ssr package with NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables. TypeScript check passes. Committed in 4199d3e.",
+          "updated_at": "2026-01-13T17:24:30.850713+00:00"
         },
         {
           "id": "subtask-3-2",
@@ -318,7 +326,9 @@
             "command": "grep -c 'createServerClient' lib/supabase/server.ts",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created lib/supabase/server.ts with createServerSupabaseClient function. Uses @supabase/ssr createServerClient with async cookies() for Next.js 15 compatibility. Implements proper cookie handling with getAll() and setAll() methods. Follows same pattern as client.ts but for server-side usage in Server Components, API routes, and middleware.",
+          "updated_at": "2026-01-13T17:25:37.053000+00:00"
         },
         {
           "id": "subtask-3-3",
@@ -336,7 +346,9 @@
             "command": "grep -c 'NextResponse.redirect' middleware.ts",
             "expected": "2"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created middleware.ts with route protection for auth and admin routes. Verification passed: 2 NextResponse.redirect calls as expected. TypeScript compiles cleanly.",
+          "updated_at": "2026-01-13T17:27:04.347671+00:00"
         },
         {
           "id": "subtask-3-4",
@@ -354,7 +366,9 @@
             "command": "grep -c 'export interface' types/database.ts || grep -c 'export type' types/database.ts",
             "expected": "10"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "TypeScript types already generated from Supabase schema. File contains 17 export interfaces and 6 export types (total 23), exceeding the expected minimum of 10. Types cover all database tables (organizations, organization_members, categories, products, price_ledger, features, plans, plan_features, subscriptions, organization_feature_overrides, menu_snapshots, restaurant_tables, service_requests, audit_logs), views (current_prices, v_organization_features), and the complete Database schema type for Supabase client. TypeScript compiles without errors.",
+          "updated_at": "2026-01-13T17:28:36.078860+00:00"
         },
         {
           "id": "subtask-3-5",
@@ -376,7 +390,9 @@
             "command": "ls components/ui/*.tsx | wc -l",
             "expected": "4"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created 4 base UI components: Button (variants, sizes, loading), Input (with Textarea, labels, errors), Card (header/content/footer), Modal (portal-based with focus trap). All use project Tailwind colors, dark mode support, accessibility attributes. TypeScript passes, lint passes, verified 4 .tsx files.",
+          "updated_at": "2026-01-13T17:31:31.173557+00:00"
         }
       ]
     },
@@ -411,7 +427,9 @@
               "No console errors"
             ]
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created login page with Supabase Auth:\n- app/(auth)/layout.tsx: Centered auth layout with ozaMenu logo, footer links to features/pricing\n- app/(auth)/login/page.tsx: Login form using Supabase signInWithPassword\n  - Email/password inputs with Turkish labels\n  - Loading states and form validation\n  - Error handling for invalid credentials and unverified email\n  - Links to password recovery and registration\n- Uses existing Button, Input, Card UI components\n- TypeScript check passes, ESLint passes\n- Dev server runs successfully (build error is pre-existing issue)\nCommitted in 3529630.",
+          "updated_at": "2026-01-13T17:35:26.959725+00:00"
         },
         {
           "id": "subtask-4-2",
@@ -433,7 +451,9 @@
               "No console errors"
             ]
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created registration page with two-step merchant onboarding wizard. Features include: email/password validation, auto-generated restaurant slug, slug uniqueness check, organization and member creation, Turkish localized error messages. Page compiled successfully and follows existing auth patterns.",
+          "updated_at": "2026-01-13T17:38:10.404842+00:00"
         },
         {
           "id": "subtask-4-3",
@@ -455,7 +475,9 @@
               "No console errors"
             ]
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created password recovery pages following existing auth page patterns. Password recovery page (/password-recovery) allows users to request a password reset via email with Turkish localization. Reset password page (/reset-password) handles the actual password change with session validation, form validation, and success/error states. Both pages use the existing UI component library (Card, Input, Button) and follow the same patterns as login/register pages. TypeScript and ESLint checks pass.",
+          "updated_at": "2026-01-13T17:44:27.498622+00:00"
         },
         {
           "id": "subtask-4-4",
@@ -476,7 +498,9 @@
               "No console errors"
             ]
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created email verification page at app/(auth)/verify-email/page.tsx with:\n- Full email verification workflow handling OTP token verification\n- Success state with auto-redirect to dashboard after 2 seconds\n- Resend verification email functionality with rate limit handling\n- Error states for expired tokens and already verified emails\n- Turkish localized UI following existing auth page patterns\n- Uses useCallback hook for proper React hooks optimization\n- TypeScript and ESLint checks pass\n- HTTP 200 verified on dev server\nCommitted in 14c0942.",
+          "updated_at": "2026-01-13T17:47:42.227483+00:00"
         },
         {
           "id": "subtask-4-5",
@@ -1635,5 +1659,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-13T17:17:54.086078+00:00"
+  "last_updated": "2026-01-13T17:47:42.227491+00:00"
 }

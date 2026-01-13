@@ -14,7 +14,17 @@
       "description": "Restaurant tables and service requests migration. Uses qr_uuid (not sequential IDs) for QR security. service_requests table designed for Supabase Realtime subscriptions with organization_id index for filtering. Includes spam prevention via last_ping_at column.",
       "category": "database",
       "discovered_at": "2026-01-13T17:16:22.706250+00:00"
+    },
+    "supabase/migrations/007_rls_policies.sql": {
+      "description": "RLS policies for multi-tenant isolation use auth.user_org_ids() helper function to get all organization IDs for current user. All tenant-scoped tables check organization_id IN (SELECT auth.user_org_ids()). price_ledger uses product_id lookup since it doesn't have direct organization_id. Service role key bypasses RLS for public menu pages and system operations.",
+      "category": "database",
+      "discovered_at": "2026-01-13T17:21:06.208819+00:00"
+    },
+    "components/ui/index.ts": {
+      "description": "Base UI component library with Button (5 variants, 3 sizes), Input/Textarea (with label/error states), Card (with Header/Content/Footer sub-components), Modal (with ConfirmModal variant). All components use forwardRef, proper ARIA attributes, and support dark mode via CSS variables.",
+      "category": "architecture",
+      "discovered_at": "2026-01-13T17:31:31.199273+00:00"
     }
   },
-  "last_updated": "2026-01-13T17:16:22.706257+00:00"
+  "last_updated": "2026-01-13T17:31:31.199282+00:00"
 }

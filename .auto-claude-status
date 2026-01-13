@@ -3,23 +3,23 @@
   "spec": "001-ozon-e-menum-net-vibe-coding-v1",
   "state": "building",
   "subtasks": {
-    "completed": 9,
+    "completed": 21,
     "total": 66,
     "in_progress": 1,
     "failed": 0
   },
   "phase": {
-    "current": "Database Schema",
+    "current": "Authentication System",
     "id": null,
-    "total": 8
+    "total": 7
   },
   "workers": {
     "active": 0,
     "max": 1
   },
   "session": {
-    "number": 10,
+    "number": 22,
     "started_at": "2026-01-13T20:01:21.133148"
   },
-  "last_update": "2026-01-13T20:18:16.894492"
+  "last_update": "2026-01-13T20:48:01.447556"
 }
