@@ -9,7 +9,12 @@
       "description": "Core tables migration created with organizations (multi-tenant) and organization_members (RBAC). Uses gen_random_uuid() for UUID generation, TIMESTAMPTZ for timestamps, JSONB for settings, CHECK constraint for role enum (owner, admin, manager, waiter, viewer). Includes update_updated_at_column() trigger function reusable by other tables.",
       "category": "database",
       "discovered_at": "2026-01-13T17:11:32.645836+00:00"
+    },
+    "supabase/migrations/004_tables_service_requests.sql": {
+      "description": "Restaurant tables and service requests migration. Uses qr_uuid (not sequential IDs) for QR security. service_requests table designed for Supabase Realtime subscriptions with organization_id index for filtering. Includes spam prevention via last_ping_at column.",
+      "category": "database",
+      "discovered_at": "2026-01-13T17:16:22.706250+00:00"
     }
   },
-  "last_updated": "2026-01-13T17:11:32.645843+00:00"
+  "last_updated": "2026-01-13T17:16:22.706257+00:00"
 }

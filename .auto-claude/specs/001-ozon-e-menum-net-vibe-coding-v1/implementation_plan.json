@@ -194,7 +194,9 @@
             "command": "cat supabase/migrations/004_tables_service_requests.sql | grep -c 'CREATE TABLE'",
             "expected": "2"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created 004_tables_service_requests.sql with restaurant_tables and service_requests tables. Includes QR UUID for secure table identification, status tracking, spam prevention via last_ping_at, and proper indexes for Supabase Realtime subscriptions. Verification passed (2 CREATE TABLE statements).",
+          "updated_at": "2026-01-13T17:16:22.683630+00:00"
         },
         {
           "id": "subtask-2-5",
@@ -1631,5 +1633,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-13T17:14:58.744828+00:00"
+  "last_updated": "2026-01-13T17:16:22.683640+00:00"
 }
