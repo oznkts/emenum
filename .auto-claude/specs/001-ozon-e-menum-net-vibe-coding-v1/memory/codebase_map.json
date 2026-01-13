@@ -104,7 +104,17 @@
       "description": "Waiter call panel with Supabase Realtime subscriptions. Uses supabase.channel().on('postgres_changes', {...}).subscribe() pattern for real-time updates. Subscribes to both INSERT and UPDATE events on service_requests table filtered by organization_id. Includes Web Audio API for notification sounds, status workflow (pending -> acknowledged -> completed), and joined restaurant_tables data for table number display.",
       "category": "feature",
       "discovered_at": "2026-01-13T19:21:05.961312+00:00"
+    },
+    "app/api/service-request/route.ts": {
+      "description": "Service request API route (POST /api/service-request) for waiter call functionality. Public endpoint (no auth required) that accepts tableId (qr_uuid), requestType (waiter_call|bill_request|other), and notes. Implements 30-second spam prevention via last_ping_at check. Creates service_request entry and updates table status to 'service_needed'. Triggers Supabase Realtime notification for waiters. HTTP 429 for rate limiting. Follows existing API route patterns from qr/generate and uses Turkish error messages.",
+      "category": "api",
+      "discovered_at": "2026-01-13T19:23:12.654715+00:00"
+    },
+    "app/(admin)/layout.tsx": {
+      "description": "Admin layout with Super Admin role check via user.app_metadata?.is_super_admin. Uses red color scheme for visual distinction from dashboard. Admin navigation includes: /admin (dashboard), /admin/organizations (tenant management), /admin/plans (plan management), /admin/overrides (feature overrides), /admin/ai (AI token management). Includes link back to user dashboard panel.",
+      "category": "pattern",
+      "discovered_at": "2026-01-13T19:27:43.840017+00:00"
     }
   },
-  "last_updated": "2026-01-13T19:21:05.961324+00:00"
+  "last_updated": "2026-01-13T19:27:43.840029+00:00"
 }

@@ -1150,7 +1150,9 @@
             "command": "grep -c 'export async function POST' app/api/service-request/route.ts",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created POST /api/service-request endpoint with:\n\n- Public endpoint (no auth required) for customer QR code scanning\n- Validates tableId (qr_uuid), requestType, and optional notes fields\n- Fetches table by qr_uuid and validates it exists and is active\n- Implements 30-second spam prevention cooldown via last_ping_at check\n- Creates service_request entry with pending status\n- Updates restaurant_tables.current_status to 'service_needed'\n- Returns requestId and tableNumber on success\n- HTTP 429 for rate limiting violations\n- Turkish localized error messages following existing API route patterns\n\nVerification passed: grep -c 'export async function POST' = 1\nESLint: passes with no errors/warnings\nCommitted in 250381b",
+          "updated_at": "2026-01-13T19:23:07.068155+00:00"
         }
       ]
     },
@@ -1184,7 +1186,9 @@
               "No console errors"
             ]
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created admin layout with Super Admin role-based access control and admin dashboard page. Implemented role check via user.app_metadata.is_super_admin, red theme distinction for admin panel, navigation sidebar with admin routes, system-wide statistics dashboard, quick action cards, and recent activity metrics.",
+          "updated_at": "2026-01-13T19:27:38.529259+00:00"
         },
         {
           "id": "subtask-10-2",
@@ -1205,7 +1209,9 @@
               "No console errors"
             ]
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created Super Admin organizations management page at app/(admin)/admin/organizations/page.tsx with:\n\n- Full list of all tenant organizations with search and status filter\n- Stats cards showing total, active, inactive, and with-plan counts  \n- Organization activation/deactivation toggle\n- Plan assignment modal with available plans selection\n- Edit organization details modal (name, active status)\n- View menu link (opens /menu/[slug] in new tab)\n- Impersonation button placeholder (disabled for future implementation)\n- Member count and product count display per organization\n- Turkish localized UI following existing admin panel patterns (red theme)\n- Responsive table design with hover actions\n- StatusBadge and PlanBadge components for visual status display\n\nVerification:\n- ESLint passes (only warning about <img> vs <Image>, consistent with existing codebase)\n- Dev server compiles successfully (Next.js 15.5.9)\n- Pre-existing TypeScript errors in test file are unrelated\n\nCommitted in f9dc204.",
+          "updated_at": "2026-01-13T19:32:45.762659+00:00"
         },
         {
           "id": "subtask-10-3",
@@ -1713,5 +1719,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-13T19:21:05.908304+00:00"
+  "last_updated": "2026-01-13T19:32:45.762668+00:00"
 }
