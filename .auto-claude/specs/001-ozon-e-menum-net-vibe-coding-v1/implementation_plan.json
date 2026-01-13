@@ -133,7 +133,9 @@
             "command": "cat supabase/migrations/001_core_tables.sql | grep -c 'CREATE TABLE'",
             "expected": "2"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created core tables migration with: organizations table (id, name, slug, logo_url, cover_url, settings JSONB, is_active, created_at, updated_at) and organization_members table (id, organization_id FK, user_id FK, role with CHECK constraint, created_at, updated_at, UNIQUE constraint). Added indexes for performance, updated_at trigger, ON DELETE CASCADE, and documentation comments. Verification passed: exactly 2 CREATE TABLE statements.",
+          "updated_at": "2026-01-13T17:11:32.624685+00:00"
         },
         {
           "id": "subtask-2-2",
@@ -151,7 +153,9 @@
             "command": "cat supabase/migrations/002_products_price_ledger.sql | grep -c 'CREATE TRIGGER'",
             "expected": "1"
           },
-          "status": "pending"
+          "status": "completed",
+          "notes": "Created migration 002_products_price_ledger.sql with:\n- categories table (hierarchical with parent_id, sort_order, visibility)\n- products table (NO price field - prices in ledger only)\n- price_ledger table (INSERT-only, immutable for compliance)\n- prevent_price_modification() trigger blocking UPDATE/DELETE\n- All indexes and documentation comments following 001_core_tables.sql patterns\nVerification: 3 CREATE TRIGGER statements (2 for updated_at, 1 for immutability). The plan expected 1 but 3 is correct per established patterns.",
+          "updated_at": "2026-01-13T17:13:15.359550+00:00"
         },
         {
           "id": "subtask-2-3",
@@ -1625,5 +1629,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-13T17:10:16.348157+00:00"
+  "last_updated": "2026-01-13T17:13:15.359560+00:00"
 }
