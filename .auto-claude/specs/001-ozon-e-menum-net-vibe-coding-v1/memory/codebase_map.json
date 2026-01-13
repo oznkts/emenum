@@ -99,7 +99,12 @@
       "description": "Audit log viewer page displaying chronological changes with filtering (action/entity type), pagination, search, and detailed JSON diff modal. Uses Turkish localized UI, relative time formatting, color-coded action badges, and entity type icons. Fetches from audit_logs table with organization_id filter.",
       "category": "pattern",
       "discovered_at": "2026-01-13T19:10:54.909951+00:00"
+    },
+    "app/(dashboard)/waiter/page.tsx": {
+      "description": "Waiter call panel with Supabase Realtime subscriptions. Uses supabase.channel().on('postgres_changes', {...}).subscribe() pattern for real-time updates. Subscribes to both INSERT and UPDATE events on service_requests table filtered by organization_id. Includes Web Audio API for notification sounds, status workflow (pending -> acknowledged -> completed), and joined restaurant_tables data for table number display.",
+      "category": "feature",
+      "discovered_at": "2026-01-13T19:21:05.961312+00:00"
     }
   },
-  "last_updated": "2026-01-13T19:10:54.909960+00:00"
+  "last_updated": "2026-01-13T19:21:05.961324+00:00"
 }
