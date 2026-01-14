@@ -308,7 +308,7 @@ export function useTableContext(
   useEffect(() => {
     const initTableContext = async () => {
       // Priority 1: URL parameter
-      const urlTableId = searchParams.get('table_id')
+      const urlTableId = searchParams?.get('table_id')
 
       if (urlTableId) {
         setTableIdState(urlTableId)

@@ -15,9 +15,9 @@ export default function VerifyEmailPage() {
   const [isResending, setIsResending] = useState(false)
   const [resendSuccess, setResendSuccess] = useState(false)
 
-  const email = searchParams.get('email')
-  const token = searchParams.get('token')
-  const type = searchParams.get('type')
+  const email = searchParams?.get('email')
+  const token = searchParams?.get('token')
+  const type = searchParams?.get('type')
 
   const handleEmailConfirmation = useCallback(async () => {
     if (!token) return

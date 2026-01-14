@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, type FormEvent } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -542,10 +543,13 @@ export default function OrganizationsPage() {
                         <div className="flex items-center gap-3">
                           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary-100 text-sm font-medium text-secondary-600 dark:bg-secondary-700 dark:text-secondary-300">
                             {org.logo_url ? (
-                              <img
+                              <Image
                                 src={org.logo_url}
                                 alt={org.name}
+                                width={40}
+                                height={40}
                                 className="h-full w-full rounded-lg object-cover"
+                                unoptimized
                               />
                             ) : (
                               org.name.charAt(0).toUpperCase()

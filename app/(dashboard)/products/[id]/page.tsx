@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Input, Textarea } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -434,11 +435,13 @@ export default function EditProductPage({
 
                 {/* Image preview */}
                 {formData.image_url && (
-                  <div className="overflow-hidden rounded-lg border border-secondary-200 dark:border-secondary-700">
-                    <img
+                  <div className="relative h-40 overflow-hidden rounded-lg border border-secondary-200 dark:border-secondary-700">
+                    <Image
                       src={formData.image_url}
                       alt="Urun gorseli onizleme"
-                      className="h-40 w-full object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                       onError={(e) => {
                         e.currentTarget.style.display = 'none'
                       }}

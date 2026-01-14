@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
+// Force dynamic rendering to prevent static generation issues with client components
+export const dynamic = 'force-dynamic'
+
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',

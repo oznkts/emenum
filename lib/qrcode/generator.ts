@@ -23,7 +23,7 @@
  * const pdf = await generateQRCodePDF('demo-restaurant', { title: 'My Restaurant' })
  */
 
-import * as QRCode from 'qrcode'
+import { toString, toDataURL } from 'qrcode'
 
 /**
  * Supported PNG sizes for QR code generation
@@ -146,7 +146,7 @@ export async function generateQRCodeSVG(
   } = options
 
   try {
-    const svg = await QRCode.toString(url, {
+    const svg = await toString(url, {
       type: 'svg',
       errorCorrectionLevel,
       color: {
@@ -222,7 +222,7 @@ export async function generateQRCodePNG(
   } = options
 
   try {
-    const dataUrl = await QRCode.toDataURL(url, {
+    const dataUrl = await toDataURL(url, {
       errorCorrectionLevel,
       width: size,
       color: {
@@ -297,6 +297,8 @@ export async function generateQRCodePNGBuffer(
   } = options
 
   try {
+    // Dynamic import for Node.js-only toBuffer function
+    const QRCode = await import('qrcode')
     const buffer = await QRCode.toBuffer(url, {
       errorCorrectionLevel,
       width: size,

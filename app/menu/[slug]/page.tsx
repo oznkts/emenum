@@ -16,7 +16,7 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { createStaticSupabaseClient } from '@/lib/supabase/server'
 import {
   getCurrentMenuSnapshotBySlug,
   type MenuSnapshotData,
@@ -35,9 +35,15 @@ interface MenuPageProps {
 /**
  * Generate static params for all active organizations
  * This pre-generates menu pages at build time for performance
+ * Uses static client because generateStaticParams runs outside request context
  */
 export async function generateStaticParams() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = createStaticSupabaseClient()
+
+  // Return empty array if Supabase is not configured (during build without env vars)
+  if (!supabase) {
+    return []
+  }
 
   const { data: organizations } = await supabase
     .from('organizations')

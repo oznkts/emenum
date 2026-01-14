@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, type FormEvent } from 'react'
+import Image from 'next/image'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Input, Textarea } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -53,10 +54,13 @@ function ProductListItem({
       {/* Product image or placeholder */}
       <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
         {product.image_url ? (
-          <img
+          <Image
             src={product.image_url}
             alt={product.name}
+            width={56}
+            height={56}
             className="h-full w-full object-cover"
+            unoptimized
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">

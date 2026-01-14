@@ -25,8 +25,8 @@ export default function ResetPasswordPage() {
       const { data: { session } } = await supabase.auth.getSession()
 
       // Check for error in URL params (from Supabase redirect)
-      const errorParam = searchParams.get('error')
-      const errorDescription = searchParams.get('error_description')
+      const errorParam = searchParams?.get('error')
+      const errorDescription = searchParams?.get('error_description')
 
       if (errorParam) {
         setError(errorDescription || 'Sifre sifirlama baglantisi gecersiz veya suresi dolmus.')
