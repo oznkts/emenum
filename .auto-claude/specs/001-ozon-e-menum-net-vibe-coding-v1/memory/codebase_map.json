@@ -14,7 +14,12 @@
       "description": "Comprehensive pricing page with plan comparison table. Follows awwwards-level design pattern with Navigation/Footer components, 4 plans (Lite, Gold, Platinum, Enterprise), detailed feature comparison table organized by categories, FAQ section, and CTA. Uses Turkish localization, primary/secondary color scheme, and responsive design.",
       "category": "component",
       "discovered_at": "2026-01-14T07:22:53.360299+00:00"
+    },
+    "app/(dashboard)/layout.tsx": {
+      "description": "Dashboard and admin layouts use server component wrappers with 'dynamic = force-dynamic' to prevent static generation issues. AuthProvider is added at the route group level, not root layout.",
+      "category": "architecture",
+      "discovered_at": "2026-01-14T08:01:59.078216+00:00"
     }
   },
-  "last_updated": "2026-01-14T07:22:53.360307+00:00"
+  "last_updated": "2026-01-14T08:01:59.078225+00:00"
 }
