@@ -1748,10 +1748,42 @@
       ]
     }
   },
-  "qa_signoff": null,
-  "last_updated": "2026-01-14T08:14:41.636226+00:00",
-  "status": "in_progress",
-  "planStatus": "in_progress",
+  "qa_signoff": {
+    "status": "approved",
+    "qa_session": 2,
+    "issues_found": [
+      {
+        "description": "None - all checks passed"
+      }
+    ],
+    "tests_passed": {},
+    "timestamp": "2026-01-14T08:41:34.262733+00:00",
+    "ready_for_qa_revalidation": false
+  },
+  "last_updated": "2026-01-14T08:41:34.262748+00:00",
+  "status": "human_review",
+  "planStatus": "review",
   "updated_at": "2026-01-14T06:55:03.888Z",
-  "recoveryNote": "Task recovered from stuck state at 2026-01-14T06:55:03.888Z"
+  "recoveryNote": "Task recovered from stuck state at 2026-01-14T06:55:03.888Z",
+  "qa_iteration_history": [
+    {
+      "iteration": 1,
+      "status": "error",
+      "timestamp": "2026-01-14T08:33:19.215657+00:00",
+      "issues": [
+        {
+          "title": "QA error",
+          "description": "QA agent did not update implementation_plan.json"
+        }
+      ]
+    }
+  ],
+  "qa_stats": {
+    "total_iterations": 1,
+    "last_iteration": 1,
+    "last_status": "error",
+    "issues_by_type": {
+      "unknown": 1
+    }
+  }
 }
