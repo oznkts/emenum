@@ -1,50 +1,61 @@
 # Dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+node_modules/
+.pnpm-store/
 
-# Testing
-/coverage
+# Environment (KRITIK - ASLA COMMIT ETME!)
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Next.js
-/.next/
-/out/
+# Next.js build
+.next/
+out/
+build/
+.swc/
 
-# Production
-/build
-
-# Misc
-.DS_Store
-*.pem
-
-# Debug
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Local env files
-.env*.local
-.env
-
-# Vercel
-.vercel
-
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
+.pnpm-debug.log*
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-
-# Supabase
-.supabase/
+*.sublime-workspace
+*.sublime-project
 
 # OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Turbopack
-.turbo/
+# Supabase local
+.supabase/
+
+# Test outputs
+coverage/
+.nyc_output/
+
+# Auto-claude / AI tools
+.auto-claude/
+.auto-claude-status
+
+# Vercel
+.vercel/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Optional: Local config
+*.local

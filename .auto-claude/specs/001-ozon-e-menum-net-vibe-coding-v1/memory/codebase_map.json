@@ -19,7 +19,12 @@
       "description": "Dashboard and admin layouts use server component wrappers with 'dynamic = force-dynamic' to prevent static generation issues. AuthProvider is added at the route group level, not root layout.",
       "category": "architecture",
       "discovered_at": "2026-01-14T08:01:59.078216+00:00"
+    },
+    "scripts/e2e-verification.md": {
+      "description": "Comprehensive E2E verification documentation for the Register -> QR Download -> Menu View flow. Documents all 6 verification steps, key implementation files, database tables involved, and testing results. All 202 tests pass, build successful with 31 routes.",
+      "category": "documentation",
+      "discovered_at": "2026-01-14T08:15:02.227330+00:00"
     }
   },
-  "last_updated": "2026-01-14T08:01:59.078225+00:00"
+  "last_updated": "2026-01-14T08:15:02.227340+00:00"
 }
