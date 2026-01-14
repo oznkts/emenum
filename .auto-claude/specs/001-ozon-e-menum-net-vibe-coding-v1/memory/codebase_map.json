@@ -1,120 +1,20 @@
 {
   "discovered_files": {
-    "package.json": {
-      "description": "Next.js 15.5.9 with React 19, TypeScript 5.7, Tailwind CSS 3.4.x, ESLint 8.x setup. Uses App Router with security headers configured in next.config.ts. Vitest configured for testing.",
-      "category": "project-setup",
-      "discovered_at": "2026-01-13T17:03:50.050963+00:00"
+    "app/(admin)/admin/ai/page.tsx": {
+      "description": "AI token management page for Super Admin. Shows organization AI status, plan AI features, toggle AI access via overrides, and adjust quotas. Follows admin page patterns with Card, Modal, Button components and Turkish UI.",
+      "category": "admin-pages",
+      "discovered_at": "2026-01-14T07:04:02.727732+00:00"
     },
-    "supabase/migrations/001_core_tables.sql": {
-      "description": "Core tables migration created with organizations (multi-tenant) and organization_members (RBAC). Uses gen_random_uuid() for UUID generation, TIMESTAMPTZ for timestamps, JSONB for settings, CHECK constraint for role enum (owner, admin, manager, waiter, viewer). Includes update_updated_at_column() trigger function reusable by other tables.",
-      "category": "database",
-      "discovered_at": "2026-01-13T17:11:32.645836+00:00"
+    "app/page.tsx": {
+      "description": "Awwwards-level landing page with hero section (animated gradient orbs, phone mockup), stats, features grid, how-it-works steps, testimonials, pricing preview, and footer. Turkish localized. Uses CSS animations from globals.css (blob, float, fadeIn, scrollDown). Server Component - no 'use client' directive.",
+      "category": "landing",
+      "discovered_at": "2026-01-14T07:11:47.959132+00:00"
     },
-    "supabase/migrations/004_tables_service_requests.sql": {
-      "description": "Restaurant tables and service requests migration. Uses qr_uuid (not sequential IDs) for QR security. service_requests table designed for Supabase Realtime subscriptions with organization_id index for filtering. Includes spam prevention via last_ping_at column.",
-      "category": "database",
-      "discovered_at": "2026-01-13T17:16:22.706250+00:00"
-    },
-    "supabase/migrations/007_rls_policies.sql": {
-      "description": "RLS policies for multi-tenant isolation use auth.user_org_ids() helper function to get all organization IDs for current user. All tenant-scoped tables check organization_id IN (SELECT auth.user_org_ids()). price_ledger uses product_id lookup since it doesn't have direct organization_id. Service role key bypasses RLS for public menu pages and system operations.",
-      "category": "database",
-      "discovered_at": "2026-01-13T17:21:06.208819+00:00"
-    },
-    "components/ui/index.ts": {
-      "description": "Base UI component library with Button (5 variants, 3 sizes), Input/Textarea (with label/error states), Card (with Header/Content/Footer sub-components), Modal (with ConfirmModal variant). All components use forwardRef, proper ARIA attributes, and support dark mode via CSS variables.",
-      "category": "architecture",
-      "discovered_at": "2026-01-13T17:31:31.199273+00:00"
-    },
-    "app/api/auth/logout/route.ts": {
-      "description": "Logout API route uses POST method with Supabase Auth signOut(). Creates server client with cookie handling pattern from @supabase/ssr. Returns JSON error on failure (500), redirects to home on success. Turkish error messages used for user-facing errors.",
-      "category": "auth",
-      "discovered_at": "2026-01-13T17:50:25.099895+00:00"
-    },
-    "components/providers/auth-provider.tsx": {
-      "description": "Auth context provider pattern using Supabase auth.onAuthStateChange subscription. Automatically fetches organization membership and details when user signs in. Supports multi-organization users via setCurrentOrganization. useAuth hook in hooks/useAuth.ts provides typed access to context with error on missing provider.",
-      "category": "pattern",
-      "discovered_at": "2026-01-13T17:52:17.993527+00:00"
-    },
-    "lib/guards/__tests__/permission.test.ts": {
-      "description": "Permission guard unit tests with 27 comprehensive tests covering all exported functions from permission.ts. Uses mocked Supabase client with custom createMockQueryBuilder factory. Tests verify dynamic feature flagging pattern (no hard-coded plan checks), override precedence, limit handling (including unlimited plans with -1), and edge cases. vitest.config.ts updated to include tests from lib/**/__tests__/.",
-      "category": "testing",
-      "discovered_at": "2026-01-13T18:09:06.425763+00:00"
-    },
-    "lib/services/price-ledger.ts": {
-      "description": "Price ledger service implementing INSERT-only immutable pattern for Turkish Trade Ministry compliance. Uses current_prices database view for latest price retrieval. Key functions: addPriceEntry() (INSERT only), getCurrentPrice(), getPriceHistory(). Exports exportPriceLedgerForCompliance() for regulatory reporting. All operations use createServerSupabaseClient and follow existing guard patterns.",
-      "category": "service",
-      "discovered_at": "2026-01-13T18:11:24.466279+00:00"
-    },
-    "lib/__tests__/price-ledger-immutability.test.ts": {
-      "description": "Comprehensive unit tests for price ledger immutability pattern (30 tests). Tests verify INSERT-only ledger pattern for Turkish Trade Ministry compliance. Uses mocked Supabase client with custom createMockQueryBuilder factory that properly handles .insert().select().single() chain. Covers: INSERT operations, UPDATE/DELETE blocking verification, current price view, price history queries with pagination, input validation, price statistics, and compliance export functionality.",
-      "category": "testing",
-      "discovered_at": "2026-01-13T18:17:02.977382+00:00"
-    },
-    "app/(dashboard)/layout.tsx": {
-      "description": "Dashboard layout with sidebar navigation - uses useAuth hook for organization/user info, mobile-responsive with hamburger menu, includes all navigation routes (Dashboard, Categories, Products, Tables, Waiter, Audit, Settings)",
+    "app/pricing/page.tsx": {
+      "description": "Comprehensive pricing page with plan comparison table. Follows awwwards-level design pattern with Navigation/Footer components, 4 plans (Lite, Gold, Platinum, Enterprise), detailed feature comparison table organized by categories, FAQ section, and CTA. Uses Turkish localization, primary/secondary color scheme, and responsive design.",
       "category": "component",
-      "discovered_at": "2026-01-13T18:23:42.679846+00:00"
-    },
-    "app/(dashboard)/products/page.tsx": {
-      "description": "Products list page with CRUD - displays products with current prices from view, supports search/category filtering, modal forms for add/edit, price changes go to immutable price_ledger, visibility toggle, Turkish UI",
-      "category": "dashboard",
-      "discovered_at": "2026-01-13T18:27:43.683824+00:00"
-    },
-    "lib/services/snapshot.ts": {
-      "description": "Menu snapshot service implementing SHA-256 hashing for Turkish Trade Ministry compliance. Uses Web Crypto API (crypto.subtle.digest) for hashing. Key functions: createMenuSnapshot() for publishing, verifySnapshotHash() for integrity checks, getCurrentMenuSnapshotBySlug() for public menu pages. Snapshots include organization info, visible categories, products with current prices, and metadata. Follows price-ledger.ts patterns with Turkish error messages and comprehensive JSDoc.",
-      "category": "service",
-      "discovered_at": "2026-01-13T18:40:09.949310+00:00"
-    },
-    "lib/qrcode/generator.ts": {
-      "description": "QR code generator utility supporting SVG, PNG (1024/2048/4096px), and A5 PDF formats. Uses 'qrcode' npm package with 'import * as QRCode from \"qrcode\"' syntax. High error correction level (H) for reliability. Supports table-specific QR codes via tableId parameter. Key functions: generateQRCodeSVG(), generateQRCodePNG(), generateQRCodePDF(), generateAllQRCodeFormats(). Turkish error messages for user-facing errors.",
-      "category": "utility",
-      "discovered_at": "2026-01-13T18:47:11.138688+00:00"
-    },
-    "app/api/menu/publish/route.ts": {
-      "description": "Menu publish API route implementing POST /api/menu/publish. Creates immutable menu snapshot with SHA-256 hash using createMenuSnapshot() from lib/services/snapshot.ts. Triggers ISR revalidation via revalidatePath for public menu page. Requires auth + organization membership with owner/admin/manager role. Returns snapshotId, version, hash, and publishedAt. Turkish error messages follow existing patterns.",
-      "category": "api",
-      "discovered_at": "2026-01-13T18:51:21.025772+00:00"
-    },
-    "app/api/menu/snapshot/route.ts": {
-      "description": "Menu snapshot GET API for compliance export. Supports query params: organizationId (required if no snapshotId), snapshotId (optional), version (optional), history=true (paginated list), verify=true (hash verification), export=true (compliance formatted). Uses existing snapshot service functions. Auth + org membership required.",
-      "category": "api",
-      "discovered_at": "2026-01-13T18:54:01.701035+00:00"
-    },
-    "app/(dashboard)/dashboard/page.tsx": {
-      "description": "Main dashboard page with QR code download functionality. Uses 'use client' directive with useAuth hook for organization/membership context. Fetches stats from categories, products, restaurant_tables, and service_requests tables. Integrates QR generator (lib/qrcode/generator.ts) for SVG preview and downloads (SVG, PNG 1024/2048/4096, A5 PDF). Includes quick action cards, role display, and Turkish localization.",
-      "category": "dashboard",
-      "discovered_at": "2026-01-13T18:59:28.639393+00:00"
-    },
-    "components/dashboard/sidebar.tsx": {
-      "description": "Reusable dashboard sidebar component with NavItem[] interface for customizable navigation. Exports defaultNavItems array with all dashboard routes (Genel Bakis, Kategoriler, Urunler, Masalar, Garson Cagri, Denetim Kaydi, Ayarlar). Supports mobile-responsive slide-in animation, organization info display, user avatar with sign out, badge counts on nav items. Use with isOpen/onClose props for mobile toggle.",
-      "category": "component",
-      "discovered_at": "2026-01-13T19:02:32.464790+00:00"
-    },
-    "components/dashboard/header.tsx": {
-      "description": "Dashboard header component with mobile menu toggle, menu preview link, and custom actions slot. Also exports Breadcrumbs component for navigation hierarchy and PageHeader component for page-level headers with title, description, breadcrumbs, and actions. All components support dark mode and Turkish localization.",
-      "category": "component",
-      "discovered_at": "2026-01-13T19:02:32.497720+00:00"
-    },
-    "app/(dashboard)/audit/page.tsx": {
-      "description": "Audit log viewer page displaying chronological changes with filtering (action/entity type), pagination, search, and detailed JSON diff modal. Uses Turkish localized UI, relative time formatting, color-coded action badges, and entity type icons. Fetches from audit_logs table with organization_id filter.",
-      "category": "pattern",
-      "discovered_at": "2026-01-13T19:10:54.909951+00:00"
-    },
-    "app/(dashboard)/waiter/page.tsx": {
-      "description": "Waiter call panel with Supabase Realtime subscriptions. Uses supabase.channel().on('postgres_changes', {...}).subscribe() pattern for real-time updates. Subscribes to both INSERT and UPDATE events on service_requests table filtered by organization_id. Includes Web Audio API for notification sounds, status workflow (pending -> acknowledged -> completed), and joined restaurant_tables data for table number display.",
-      "category": "feature",
-      "discovered_at": "2026-01-13T19:21:05.961312+00:00"
-    },
-    "app/api/service-request/route.ts": {
-      "description": "Service request API route (POST /api/service-request) for waiter call functionality. Public endpoint (no auth required) that accepts tableId (qr_uuid), requestType (waiter_call|bill_request|other), and notes. Implements 30-second spam prevention via last_ping_at check. Creates service_request entry and updates table status to 'service_needed'. Triggers Supabase Realtime notification for waiters. HTTP 429 for rate limiting. Follows existing API route patterns from qr/generate and uses Turkish error messages.",
-      "category": "api",
-      "discovered_at": "2026-01-13T19:23:12.654715+00:00"
-    },
-    "app/(admin)/layout.tsx": {
-      "description": "Admin layout with Super Admin role check via user.app_metadata?.is_super_admin. Uses red color scheme for visual distinction from dashboard. Admin navigation includes: /admin (dashboard), /admin/organizations (tenant management), /admin/plans (plan management), /admin/overrides (feature overrides), /admin/ai (AI token management). Includes link back to user dashboard panel.",
-      "category": "pattern",
-      "discovered_at": "2026-01-13T19:27:43.840017+00:00"
+      "discovered_at": "2026-01-14T07:22:53.360299+00:00"
     }
   },
-  "last_updated": "2026-01-13T19:27:43.840029+00:00"
+  "last_updated": "2026-01-14T07:22:53.360307+00:00"
 }
